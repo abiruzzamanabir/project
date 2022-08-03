@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+class AdminAuthController extends Controller
+{
+    public function showLoginPage()
+    {
+        return view('admin.pages.login');
+    }
+
+    public function Login(Request $request)
+    {
+        $this->validate($request,[
+            'email_cell_username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::guard('admin')->attempt([
+            'email'=>$request->email_cell_username,
+            'password'=>$request->password,
+        ])) {
+            return redirect()->route('admin.dashboard.page');
+        } else {
+            return redirect()->route('admin.login.page')->with('warning','Email or Password incorrect');
+        }
+        
+    }
+public function Logout()
+{
+    Auth::guard('admin')-> logout();
+    return redirect()->route('admin.login.page')->with('success','Logout Successfully');
+}
+}
