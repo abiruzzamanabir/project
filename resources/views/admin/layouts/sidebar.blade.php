@@ -39,7 +39,7 @@
 								<ul style="display: none;">
 									<li><a href="#">Users</a></li>
 									<li><a href="#">Role</a></li>
-									<li><a href="#">Permission</a></li>
+									<li><a href="{{ route('permission.index') }}">Permission</a></li>
 								</ul>
 							</li>
                             <li> 

@@ -23,6 +23,13 @@ class AdminAuthController extends Controller
         if (Auth::guard('admin')->attempt([
             'email'=>$request->email_cell_username,
             'password'=>$request->password,
+        ])||Auth::guard('admin')->attempt([
+            'cell'=>$request->email_cell_username,
+            'password'=>$request->password,
+        ])||Auth::guard('admin')->attempt([
+            'username
+            '=>$request->email_cell_username,
+            'password'=>$request->password,
         ])) {
             return redirect()->route('admin.dashboard.page');
         } else {
