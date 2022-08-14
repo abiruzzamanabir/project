@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminPermissionController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminRoleController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Frontend\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +45,4 @@ Route::group(['middleware' => 'admin'], function () {
 });
 
 
-Route::get('/',[])
+Route::get('/',[FrontendController::class,'showHomePage'])->name('home.page');

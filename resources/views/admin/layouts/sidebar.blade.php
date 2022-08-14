@@ -10,7 +10,15 @@
 								<a href="#"><i class="fa fa-home"></i> <span>Dashboard</span></a>
 								<a href="#"><i class="fa fa-slideshare"></i> <span>Slider</span></a>
 								<a href="#"><i class="fa fa-quote-left"></i> <span>Testimonial</span></a>
-								<a href="#"><i class="fa fa-user"></i> <span>Our Client</span></a>
+							</li>
+								<li class="submenu">
+									<a href="#"><i class="fa fa-briefcase"></i> <span> Our Client</span> <span class="menu-arrow"></span></a>
+									<ul style="display: none;">
+										<li><a href="#">Add client</a></li>
+										<li><a href="#">View Clients</a></li>
+									</ul>
+								</li>
+							<li>
 								<a href="#"><i class="fa fa-users"></i> <span>Our Team</span></a>
 							</li>
 							
