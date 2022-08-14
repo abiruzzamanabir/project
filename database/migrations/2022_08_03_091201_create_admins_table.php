@@ -16,15 +16,20 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('role_id')->default(3);
-            $table->string('name')->unique();
+            $table->unsignedInteger('role_id');
+            $table->string('fast_name');
+            $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->string('cell')->unique();
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('location')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('country')->nullable();
             $table->text('bio')->nullable();
-            $table->text('dob')->nullable();
+            $table->date('dob')->nullable();
             $table->string('photo')->default('avatar.png');
             $table->string('access_token')->nullable();
             $table->boolean('status')->default(true);

@@ -5,5 +5,5 @@
 <p class="alert alert-warning d-flex justify-content-between">{{Session::get('warning-main')}}<button data-dismiss="alert" class="close">&times;</button></p>  
 @endif
 @if (Session::has('danger-main'))
-<p class="alert alert-danger d-flex justify-content-between">{{Session::get('failed-main')}}<button data-dismiss="alert" class="close">&times;</button></p>  
+<p class="alert alert-danger d-flex justify-content-between">{{Session::get('danger-main')}}<button data-dismiss="alert" class="close">&times;</button></p>  
 @endif

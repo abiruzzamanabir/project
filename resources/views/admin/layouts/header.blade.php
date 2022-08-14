@@ -107,20 +107,30 @@
 					
 					<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow">
+						@if (Auth::guard('admin')->user()->photo == 'avatar.png')                        
+							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+								<span class="user-img"><img class="rounded-circle" src="{{ url('storage/admins/avatar.png') }}" width="31" alt="Auth::guard('admin')->user()->name"></span>
+							</a>
+						@else
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img class="rounded-circle" src="{{ asset('admin/assets/img/profiles/avatar-01.jpg') }}" width="31" alt="Ryan Taylor"></span>
+							<span class="user-img"><img style="width: 40px; height: 40px; object-fit: cover" class="rounded-circle" src="{{ url('storage/admins/'. Auth::guard('admin')->user()->photo)}}" width="31" alt="Auth::guard('admin')->user()->name"></span>
 						</a>
+                        @endif 
 						<div class="dropdown-menu">
 							<div class="user-header">
+								@if (Auth::guard('admin')->user()->photo == 'avatar.png')
 								<div class="avatar avatar-sm">
-									<img src="admin/assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
+									<img src="{{ url('storage/admins/avatar.png') }}" alt="User Image" class="avatar-img rounded-circle">
 								</div>
+								@else
+								<img style="width: 40px; height: 40px; object-fit: cover" src="{{ url('storage/admins/'. Auth::guard('admin')->user()->photo) }}" alt="User Image" class="avatar-img rounded-circle">
+								@endif
 								<div class="user-text">
-									<h6>Ryan Taylor</h6>
-									<p class="text-muted mb-0">Administrator</p>
+									<h6>{{Auth::guard('admin')->user()->fast_name .' '. Auth::guard('admin')->user()->last_name}}</h6>
+									<p class="text-muted mb-0">{{Auth::guard('admin')->user()->role->name}}</p>
 								</div>
 							</div>
-							<a class="dropdown-item" href="profile.html">My Profile</a>
+							<a class="dropdown-item" href="{{ route('admin.profile.page') }}">My Profile</a>
 							<a class="dropdown-item" href="settings.html">Settings</a>
 							<a class="dropdown-item" href="{{ route('admin.logout.page') }}">Logout</a>
 						</div>

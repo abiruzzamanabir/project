@@ -15,31 +15,36 @@ class AdminAuthController extends Controller
 
     public function Login(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'email_cell_username' => 'required',
             'password' => 'required',
         ]);
 
         if (Auth::guard('admin')->attempt([
-            'email'=>$request->email_cell_username,
-            'password'=>$request->password,
-        ])||Auth::guard('admin')->attempt([
-            'cell'=>$request->email_cell_username,
-            'password'=>$request->password,
-        ])||Auth::guard('admin')->attempt([
-            'username
-            '=>$request->email_cell_username,
-            'password'=>$request->password,
+            'email' => $request->email_cell_username,
+            'password' => $request->password,
+        ]) || Auth::guard('admin')->attempt([
+            'cell' => $request->email_cell_username,
+            'password' => $request->password,
+        ]) || Auth::guard('admin')->attempt([
+            'username' => $request->email_cell_username,
+            'password' => $request->password,
         ])) {
-            return redirect()->route('admin.dashboard.page');
+            if (Auth::guard('admin')->user()->status != true) {
+                Auth::guard('admin')->logout();
+                return redirect()->route('admin.login.page')->with('warning','Your account is blocked. Please contact with Admin');
+            } else {
+                return redirect()->route('admin.dashboard.page');
+            }
+            
+            
         } else {
-            return redirect()->route('admin.login.page')->with('warning','Email or Password incorrect');
+            return redirect()->route('admin.login.page')->with('warning', 'Email or Password incorrect');
         }
-        
     }
-public function Logout()
-{
-    Auth::guard('admin')-> logout();
-    return redirect()->route('admin.login.page')->with('success','Logout Successfully');
-}
+    public function Logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect()->route('admin.login.page')->with('success', 'Logout Successfully');
+    }
 }

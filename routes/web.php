@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminPageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminPermissionController;
+use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\AdminRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +19,28 @@ use App\Http\Controllers\Admin\AdminPermissionController;
 |
 */
 
-Route::group(['middleware'=>'admin.redirect'],function(){
-Route::get('/admin-login', [AdminAuthController::class,'showLoginPage'])->name('admin.login.page');
-Route::post('/admin-login', [AdminAuthController::class,'Login'])->name('admin.login');
-
+Route::group(['middleware' => 'admin.redirect'], function () {
+    Route::get('/admin-login', [AdminAuthController::class, 'showLoginPage'])->name('admin.login.page');
+    Route::post('/admin-login', [AdminAuthController::class, 'Login'])->name('admin.login');
+    Route::get('/forget-password', [AdminProfileController::class, 'ShowForgetPasswordPage'])->name('forget.password.page');
+    Route::post('/forget-password', [AdminProfileController::class, 'ForgetPassword'])->name('forget.password');
+    Route::get('/reset-password/{token?}/{email?}', [AdminProfileController::class, 'ResetPasswordLink'])->name('reset.password.page');
+    Route::post('/reset-password/', [AdminProfileController::class, 'ResetPassword'])->name('reset.password');
 });
 
-Route::group(['middleware'=>'admin'],function(){
-    Route::get('/dashboard', [AdminPageController::class,'showDashboardPage'])->name('admin.dashboard.page');
-    Route::get('/admin-logout', [AdminAuthController::class,'Logout'])->name('admin.logout.page');
-    Route::resource('/permission',AdminPermissionController::class);
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/dashboard', [AdminPageController::class, 'showDashboardPage'])->name('admin.dashboard.page');
+    Route::get('/profile', [AdminPageController::class, 'showProfilePage'])->name('admin.profile.page');
+    Route::post('/profile', [AdminPageController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::post('/profile-password', [AdminPageController::class, 'updatePassword'])->name('admin.password.update');
+    Route::get('/admin-logout', [AdminAuthController::class, 'Logout'])->name('admin.logout.page');
+    Route::resource('/permission', AdminPermissionController::class);
+    Route::resource('/role', AdminRoleController::class);
+    Route::resource('/admin-user', AdminController::class);
+    Route::get('/admin-user-status-update/{id}', [AdminController::class, 'updateStatus'])->name('admin.status.update');
+    Route::get('/admin-user-trash-update/{id}', [AdminController::class, 'updateTrash'])->name('admin.trash.update');
+    Route::get('/admin-trash', [AdminController::class, 'trashUsers'])->name('admin.trash');
 });
 
 
-
+Route::get('/',[])
