@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('permission');
             $table->boolean('status')->default(true);
-            $table->boolean('teash')->default(false);
+            $table->boolean('trash')->default(false);
             $table->timestamps();
         });
     }

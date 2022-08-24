@@ -3,10 +3,10 @@
 			
 				<!-- Logo -->
                 <div class="header-left">
-                    <a href="index.html" class="logo">
+                    <a href="{{ route('admin.dashboard.page') }}" class="logo">
 						<img src="{{ asset('admin/assets/img/logo.png') }}" alt="Logo">
 					</a>
-					<a href="index.html" class="logo logo-small">
+					<a href="{{ route('admin.dashboard.page') }}" class="logo logo-small">
 						<img src="{{ asset('admin/assets/img/logo-small.png') }}" alt="Logo" width="30" height="30">
 					</a>
                 </div>

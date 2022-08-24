@@ -152,14 +152,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-6">
+                                                <div class="col-12 col-sm-7">
                                                     <div class="form-group">
                                                         <label>Email ID</label>
                                                         <input name="email" type="email" class="form-control"
-                                                            value="{{Auth::guard('admin')->user()->email}}" required>
+                                                            value="{{Auth::guard('admin')->user()->email}}" required readonly>
+                                                            <small class="text-danger">( You have no permission to change it. )</small>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-6">
+                                                <div class="col-12 col-sm-5">
                                                     <div class="form-group">
                                                         <label>Mobile</label>
                                                         <input name="cell" type="text"

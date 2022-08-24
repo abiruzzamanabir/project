@@ -9,7 +9,7 @@
             @include('validate-main')
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table id="dataTable" class="table table-hover mb-0">
                         <thead>
                             <tr>
                                 <th>#</th>

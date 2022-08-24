@@ -11,7 +11,7 @@
             @include('validate-main')
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table id="dataTable" class="table table-hover mb-0">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -32,7 +32,13 @@
                             <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$user->fast_name}}</td>
-                                <td>{{$user->role->name}}</td>
+                                <td>
+                                    @if (isset($user->role->name))
+                                    {{$user->role->name}}
+                                    @else
+                                    No Role Found
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($user->photo == 'avatar.png')
                                     <img class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover"

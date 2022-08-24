@@ -128,6 +128,8 @@ class AdminController extends Controller
     {
         $delete_id = Admin::findOrFail($id);
         $delete_id->delete();
+        unlink('storage/admins/' . $delete_id->photo);
+
 
         return back()->with('success-main', 'Account Deleted successfully');
     }

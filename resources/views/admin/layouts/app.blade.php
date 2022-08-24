@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/feathericon.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/assets/plugins/morris/morris.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css"/>
+ 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
 
@@ -48,7 +49,7 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3 class="page-title">Welcome Admin!</h3>
+                            <h3 class="page-title">Welcome {{Auth::guard('admin')->user()->fast_name}} {{Auth::guard('admin')->user()->last_name}}!</h3>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item active">Dashboard</li>
                             </ul>
@@ -85,6 +86,7 @@
 
     <!-- Custom JS -->
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
     <script src="{{ asset('custom/admin.js') }}"></script>
 </body>
 

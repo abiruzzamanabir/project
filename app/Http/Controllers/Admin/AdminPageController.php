@@ -6,9 +6,10 @@ use App\Models\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notifications\Notification\PasswordChangeSuccessfullNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
+use App\Notifications\Notification\PasswordChangeSuccessfullNotification;
 
 class AdminPageController extends Controller
 {
@@ -37,9 +38,12 @@ class AdminPageController extends Controller
         ]);
 
         if ($request->hasFile('new_photo')) {
-            $img = $request->file('new_photo');
+            $img = $request->file('new_photo ');
             $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
-            $img->move(public_path('storage/admins/'), $file_name);
+            $inter=Image::make($img->getRealPath());
+            $inter->filesize();
+            $inter->save(storage_path('app/public/admins/').$file_name);
+            
             if ($request->old_photo !== 'avatar.png') {
                 unlink('storage/admins/' . $request->old_photo);
             }

@@ -29,6 +29,15 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'role_id' => 1,
         ]);
+        Admin::create([
+            'fast_name' => 'Abiruzzaman',
+            'last_name' => '',
+            'email' => 'Abiruzzamanabir17@gmail.com',
+            'cell' => '01763872217',
+            'username' => 'Abir',
+            'password' => Hash::make('123'),
+            'role_id' => 3,
+        ]);
 
 
         Permission::create([

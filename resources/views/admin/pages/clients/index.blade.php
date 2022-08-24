@@ -3,8 +3,8 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Permissions</h4>
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="card-title">Clients</h4>
             </div>
             @include('validate-main')
             <div class="card-body">
@@ -14,7 +14,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Slug</th>
+                                <th>Photo</th>
                                 @if ($form_type=='create')
                                 <th>Created At</th> @endif
                                 @if ($form_type=='edit')
@@ -23,25 +23,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($all_permission as $per)
+                            @forelse ($all_client as $client)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$per->name}}</td>
-                                <td>{{$per->slug}}</td>
+                                <td>{{$client->name}}</td>
+                                <td>
+                                    <img style="width: 50px; height: 50px;"
+                                        src="{{ url('storage/clients/'. $client->photo) }}" alt="Profile Picture">
+                                </td>
                                 @if ($form_type=='create')
-                                <td>{{$per->created_at->diffForHumans()}}</td>
+                                <td>{{$client->created_at->diffForHumans()}}</td>
                                 @endif
                                 @if ($form_type=='edit')
-                                <td>{{$per->updated_at->diffForHumans()}}</td>
+                                <td>{{$client->updated_at->diffForHumans()}}</td>
                                 @endif
+
                                 <td>
                                     {{-- <a class="btn btn-sm btn-info" href=""><i class="fa fa-eye"
                                             aria-hidden="true"></i></a> --}}
-                                    <a class="btn btn-sm btn-warning" href="{{ route('permission.edit', $per->id) }}"><i
+                                    <a class="btn btn-sm btn-warning" href="{{ route('client.edit', $client->id) }}"><i
                                             class="fa fa-edit" aria-hidden="true"></i></a>
                                     @if ($form_type=='create')
-                                    <form class="d-inline delete-form" action="{{ route('permission.destroy', $per->id) }}"
-                                        method="POST">
+                                    <form class="d-inline delete-form"
+                                        action="{{ route('client.destroy', $client->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger"><i class="fa fa-trash"
@@ -66,15 +70,19 @@
         @if ($form_type == 'create')
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Add new permission</h4>
+                <h4 class="card-title">Add new client</h4>
             </div>
             @include('validate')
             <div class="card-body">
-                <form action="{{ route('permission.store') }}" method="POST">
+                <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group order">
                         <label>Name</label>
-                        <input name="name" type="text" class="form-control" autofocus>
+                        <input name="name" type="text" value="{{old('name')}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Image</label><br>
+                        <input type="file" name="photo">
                     </div>
 
                     <div class="text-right">
@@ -87,11 +95,11 @@
         @if ($form_type == 'edit')
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Edit permission</h4>
+                <h4 class="card-title">Edit client</h4>
             </div>
             @include('validate')
             <div class="card-body">
-                <form action="{{ route('permission.update',$edit->id) }}" method="POST">
+                <form action="{{ route('client.update',$edit->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -99,8 +107,15 @@
                         <input name="name" value="{{$edit->name}}" type="text" class="form-control" autofocus>
                     </div>
 
+                    <div class="form-group">
+                        <label>Upload Image</label><br>
+                        <input type="file" name="new_photo">
+                        <input type="hidden" value="{{$edit->photo}}" name="old_photo">
+
+                    </div>
+
                     <div class="text-right">
-                        <a class="btn btn-info" href="{{ route('permission.index') }}">Back</a>
+                        <a class="btn btn-info" href="{{ route('client.index') }}">Back</a>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>

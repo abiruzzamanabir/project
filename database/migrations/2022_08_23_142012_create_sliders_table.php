@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
+            $table->string('title')->nullable();
+            $table->string('subtitle')->nullable();
+            $table->string('photo');
+            $table->string('btns')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('trash')->default(false);
             $table->timestamps();
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('sliders');
     }
 };

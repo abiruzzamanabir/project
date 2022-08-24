@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminPermissionController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminRoleController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 
@@ -42,7 +44,15 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin-user-status-update/{id}', [AdminController::class, 'updateStatus'])->name('admin.status.update');
     Route::get('/admin-user-trash-update/{id}', [AdminController::class, 'updateTrash'])->name('admin.trash.update');
     Route::get('/admin-trash', [AdminController::class, 'trashUsers'])->name('admin.trash');
-});
+    Route::resource('/client', ClientController::class);
+    Route::resource('/slider', SliderController::class);
+    Route::get('/slider-status-update/{id}', [SliderController::class, 'updateStatus'])->name('slider.status.update');
+    Route::get('/slider-trash-update/{id}', [SliderController::class, 'updateTrash'])->name('slider.trash.update');
+    Route::get('/slider-trash', [SliderController::class, 'trashUsers'])->name('slider.trash');
+
+    
+
+}); 
 
 
 Route::get('/',[FrontendController::class,'showHomePage'])->name('home.page');
