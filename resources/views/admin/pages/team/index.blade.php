@@ -4,8 +4,8 @@
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">All Sliders</h4>
-                <a class="btn btn-sm btn-danger" href="{{ route('slider.trash') }}">Trash Sliders <i
+                <h4 class="card-title">Admin Team Member</h4>
+                <a class="btn btn-sm btn-danger" href="{{ route('team.member.trash') }}">Trash Team Member <i
                         class="fa fa-arrow-right ml-2" aria-hidden="true"></i></a>
             </div>
             @include('validate-main')
@@ -15,7 +15,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Title</th>
+                                <th>Name</th>
+                                <th>Designation</th>
                                 <th>Photo</th>
                                 @if ($form_type=='create')
                                 <th>Created At</th> @endif
@@ -26,35 +27,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($sliders as $item)
+                            @forelse ($teams as $team)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$item->title}}</td>
-                                <td><img style="width: 60px" src="{{url('storage/sliders/'.$item->photo)}}" alt=""
-                                        srcset=""></td>
-
+                                <td>{{$team->name}}</td>
+                                <td>{{$team->designation}}</td>
+                                <td>
+                                    <img class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover"
+                                        src="{{ url('storage/teams/'. $team->photo)}}" alt="Profile Picture">
+                                </td>
                                 @if ($form_type=='create')
-                                <td>{{$item->created_at->diffForHumans()}}</td>
+                                <td>{{$team->created_at->diffForHumans()}}</td>
                                 @endif
                                 @if ($form_type=='edit')
-                                <td>{{$item->updated_at->diffForHumans()}}</td>
+                                <td>{{$team->updated_at->diffForHumans()}}</td>
                                 @endif
                                 <td>
-                                    @if ($item->status)
+                                    @if ($team->status)
 
-                                    <span class="badge badge-success">Published</span>
+                                    <span class="badge badge-success">Active Member</span>
                                     @if (Auth::guard('admin')->user()->role->name == 'Admin')
 
-                                    <a class="text-danger" href="{{ route('slider.status.update',$item->id) }}"><i
+                                    <a class="text-danger" href="{{ route('team.member.status.update',$team->id) }}"><i
                                             class="fa fa-times" aria-hidden="true"></i></a>
                                     @else
 
                                     @endif
                                     @else
 
-                                    <span class="badge badge-danger">Unpublished</span>
+                                    <span class="badge badge-danger">Blocked Member</span>
                                     @if (Auth::guard('admin')->user()->role->name == 'Admin')
-                                    <a class="text-success" href="{{ route('slider.status.update',$item->id) }}"><i
+                                    <a class="text-success" href="{{ route('team.member.status.update',$team->id) }}"><i
                                             class="fa fa-check" aria-hidden="true"></i></a>
                                     @else
 
@@ -64,8 +67,9 @@
                                 <td>
                                     {{-- <a class="btn btn-sm btn-info" href=""><i class="fa fa-eye"
                                             aria-hidden="true"></i></a> --}}
-                                    <a class="btn btn-sm btn-warning" href="{{ route('slider.edit', $item->id) }}"><i
-                                            class="fa fa-edit" aria-hidden="true"></i></a>
+                                    <a class="btn btn-sm btn-warning"
+                                        href="{{ route('team-member.edit', $team->id) }}"><i class="fa fa-edit"
+                                            aria-hidden="true"></i></a>
                                     @if ($form_type=='create')
                                     {{-- <form class="d-inline delete-form"
                                         action="{{ route('admin-user.destroy', $user->id) }}" method="POST">
@@ -75,14 +79,17 @@
                                                 aria-hidden="true"></i></button>
                                     </form> --}}
                                     <a class="btn btn-sm btn-danger"
-                                        href="{{ route('slider.trash.update',$item->id) }}"><i class="fa fa-trash"
+                                        href="{{ route('team.member.trash.update',$team->id) }}"><i class="fa fa-trash"
                                             aria-hidden="true"></i></a>
                                     @endif
                                 </td>
                             </tr>
                             @empty
-
+                            <tr>
+                                <td class="text-danger text-center" colspan="5">No Data Found</td>
+                            </tr>
                             @endforelse
+
                         </tbody>
                     </table>
                 </div>
@@ -93,19 +100,20 @@
         @if ($form_type == 'create')
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Add new slide</h4>
+                <h4 class="card-title">Add new team member</h4>
             </div>
             @include('validate')
             <div class="card-body">
-                <form action="{{ route('slider.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('team-member.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group order">
-                        <label>Title</label>
-                        <input name="title" type="text" value="{{old('title')}}" class="form-control" autofocus>
+                        <label>Name</label>
+                        <input name="name" type="text" value="{{old('name')}}" class="form-control" autofocus>
                     </div>
                     <div class="form-group order">
-                        <label>Sub title</label>
-                        <input name="subtitle" type="text" value="{{old('subtitle')}}" class="form-control" autofocus>
+                        <label>Designation</label>
+                        <input name="designation" type="text" value="{{old('designation')}}" class="form-control"
+                            autofocus>
                     </div>
                     <div class="form-group order">
                         <label>Photo</label>
@@ -116,12 +124,26 @@
                         <label for="slider-photo"><img style="cursor: pointer" class="w-50"
                                 src="{{ url('admin\assets\img\upload.png') }}" alt=""></label>
                     </div>
-                    <div class="form-group order slider-btn-opt">
-                        <div class="btn-opt-area">
-                        </div>
-                        <a id="add-new-slider-button" class="btn btn-info" href="">Add slider button</a>
+                    <div class="form-group order">
+                        <label>Facebook Link</label>
+                        <input name="facebook" type="text" value="{{old('facebook')}}" class="form-control" autofocus>
                     </div>
-
+                    <div class="form-group order">
+                        <label>Twitter Link</label>
+                        <input name="twitter" type="text" value="{{old('twitter')}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>LinkedIn Link</label>
+                        <input name="linkedin" type="text" value="{{old('linkedin')}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>Instagram Link</label>
+                        <input name="instagram" type="text" value="{{old('instagram')}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>Dribble Link</label>
+                        <input name="dribble" type="text" value="{{old('dribble')}}" class="form-control" autofocus>
+                    </div>
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>
@@ -133,64 +155,54 @@
         @if ($form_type == 'edit')
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Edit Slider</h4>
+                <h4 class="card-title">Edit team member</h4>
             </div>
             @include('validate')
             <div class="card-body">
-                <form action="{{ route('slider.update',$edit->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('team-member.update',$edit->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
-                        <label>Title</label>
-                        <input name="title" value="{{$edit->title}}" type="text" class="form-control" autofocus>
+                        <label>Name</label>
+                        <input name="name" value="{{$edit->name}}" type="text" class="form-control" autofocus>
                     </div>
                     <div class="form-group">
-                        <label>Sub Title <small class="text-danger">( You have no permission to change it
-                                )</small></label>
-                        <input name="subtitle" value="{{$edit->subtitle}}" type="text" class="form-control" autofocus>
+                        <label>Designation</label>
+                        <input name="designation" value="{{$edit->designation}}" type="text" class="form-control" autofocus>
                     </div>
                     <div class="form-group order">
                         <label>Photo</label>
                         <br>
                         <img style="max-width: 100%;" id="slider-photo-preview"
-                            src="{{ url('storage/sliders/'.$edit->photo) }}" alt="">
+                            src="{{ url('storage/teams/'.$edit->photo) }}" alt="">
                         <br>
                         <input class="d-none" id="slider-photo" name="new_photo" type="file" class="form-control">
                         <label for="slider-photo"><img style="cursor: pointer" class="w-50"
                                 src="{{ url('admin\assets\img\upload.png') }}" alt=""></label>
                         <input type="hidden" value="{{$edit->photo}}" name="old_photo">
                     </div>
-                    <div class="form-group order slider-btn-opt">
-
-                        <div class="btn-opt-area">
-                            @foreach (json_decode($edit->btns) as $btn)
-                            <div class="btn-section">
-                                <div class="d-flex justify-content-between">
-                                    <span>Button {{$loop->index+1}}</span>
-                                    <span style="cursor: pointer" class="badge badge-danger remove-btn">Remove <i
-                                            class="fa fa-close" aria-hidden="true"></i></span>
-                                </div>
-                                <input name="btn_title[]" value="{{$btn->btn_title}}" class="form-control my-3"
-                                    type="text" placeholder="Button Link">
-                                <input name="btn_link[]" value="{{$btn->btn_link}}" class="form-control my-3"
-                                    type="text" placeholder="Button Title">
-
-                                <select class="form-control my-3" name="btn_type[]">
-                                    <option @if ($btn->btn_type =='btn-light-out')
-                                        selected
-                                        @endif value="btn-light-out">Default</option>
-                                    <option @if ($btn->btn_type =='btn-color btn-full')
-                                        selected
-                                        @endif value="btn-color btn-full">Red</option>
-                                </select>
-                            </div>
-                            @endforeach
-                        </div>
-                        <a id="add-new-slider-button" class="btn btn-info" href="">Add slider button</a>
+                    <div class="form-group order">
+                        <label>Facebook Link</label>
+                        <input name="facebook" type="text" value="{{$edit->facebook}}" class="form-control" autofocus>
                     </div>
-
+                    <div class="form-group order">
+                        <label>Twitter Link</label>
+                        <input name="twitter" type="text" value="{{$edit->twitter}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>LinkedIn Link</label>
+                        <input name="linkedin" type="text" value="{{$edit->linkedin}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>Instagram Link</label>
+                        <input name="instagram" type="text" value="{{$edit->instagram}}" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group order">
+                        <label>Dribble Link</label>
+                        <input name="dribble" type="text" value="{{$edit->dribble}}" class="form-control" autofocus>
+                    </div>
                     <div class="text-right">
-                        <a class="btn btn-info" href="{{ route('slider.index') }}">Back</a>
+                        <a class="btn btn-info" href="{{ route('team-member.index') }}">Back</a>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>

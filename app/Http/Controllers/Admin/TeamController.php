@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Slider;
 use Intervention\Image\Facades\Image;
 
-class SliderController extends Controller
+class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,10 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::orderBy("title", "asc")->where('trash', false)->get();
-        return view('admin.pages.slider.index', [
+        $teams = Team::orderBy("name", "asc")->where('trash', false)->get();
+        return view('admin.pages.team.index', [
             'form_type' => 'create',
-            'sliders' => $sliders,
+            'teams' => $teams,
         ]);
     }
 
@@ -42,8 +42,8 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'subtitle' => 'required',
+            'name' => 'required',
+            'designation' => 'required',
             'photo' => 'required',
         ]);
 
@@ -52,32 +52,24 @@ class SliderController extends Controller
             $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
             $inter = Image::make($img->getRealPath());
             $inter->filesize();
-            $inter->save(storage_path('app/public/sliders/') . $file_name);
-        }
-
-        $buttons = [];
-
-        if(isset($request->btn_title)){
-
-            for ($i = 0; $i < count($request->btn_title); $i++) {
-                array_push($buttons, [
-                    'btn_title' => $request->btn_title[$i],
-                    'btn_link' => $request->btn_link[$i],
-                    'btn_type' => $request->btn_type[$i],
-                ]);
-            }
+            $inter->save(storage_path('app/public/teams/') . $file_name);
         }
 
 
 
-        Slider::create([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
+        Team::create([
+            'name' => $request->name,
+            'designation' => $request->designation,
             'photo' => $file_name,
-            'btns' => json_encode($buttons),
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'linkedin' => $request->linkedin,
+            'instagram' => $request->instagram,
+            'dribble' => $request->dribble,
+
         ]);
 
-        return back()->with('success', 'Slider added successfully');
+        return back()->with('success', 'Team member added successfully');
     }
 
     /**
@@ -99,12 +91,12 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $sliders = Slider::orderBy("title", "asc")->get();
-        $slider = Slider::findOrFail($id);
-        return view('admin.pages.slider.index', [
+        $teams = Team::orderBy("name", "asc")->get();
+        $team = Team::findOrFail($id);
+        return view('admin.pages.team.index', [
             'form_type'  => 'edit',
-            'edit'  => $slider,
-            'sliders' => $sliders,
+            'edit'  => $team,
+            'teams' => $teams,
         ]);
     }
 
@@ -117,40 +109,32 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_date = Slider::findOrFail($id);
+        $update_date = Team::findOrFail($id);
 
         if ($request->hasFile('new_photo')) {
             $img = $request->file('new_photo');
             $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
             $inter = Image::make($img->getRealPath());
             $inter->filesize();
-            $inter->save(storage_path('app/public/sliders/') . $file_name);
-            unlink('storage/sliders/' . $request->old_photo);
+            $inter->save(storage_path('app/public/teams/') . $file_name);
+            unlink('storage/teams/' . $request->old_photo);
         } else {
             $file_name = $request->old_photo;
         }
 
-        $buttons = [];
-
-        if(isset($request->btn_title)){
-
-            for ($i = 0; $i < count($request->btn_title); $i++) {
-                array_push($buttons, [
-                    'btn_title' => $request->btn_title[$i],
-                    'btn_link' => $request->btn_link[$i],
-                    'btn_type' => $request->btn_type[$i],
-                ]);
-            }
-        }
 
         $update_date->update([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
+            'name' => $request->name,
+            'designation' => $request->designation,
             'photo' => $file_name,
-            'btns' => json_encode($buttons),
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'linkedin' => $request->linkedin,
+            'instagram' => $request->instagram,
+            'dribble' => $request->dribble,
         ]);
 
-        return back()->with('success', 'Slider updated successfully');
+        return back()->with('success', 'Team member updated successfully');
     }
 
     /**
@@ -161,16 +145,16 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        $delete_id = Slider::findOrFail($id);
+        $delete_id = Team::findOrFail($id);
         $delete_id->delete();
-        unlink('storage/sliders/' . $delete_id->photo);
+        unlink('storage/teams/' . $delete_id->photo);
 
 
-        return back()->with('success-main', 'Slider Deleted successfully');
+        return back()->with('success-main', 'Team Member Deleted successfully');
     }
     public function updateStatus($id)
     {
-        $data = Slider::findOrFail($id);
+        $data = Team::findOrFail($id);
 
 
         if ($data->status) {
@@ -186,7 +170,7 @@ class SliderController extends Controller
     }
     public function updateTrash($id)
     {
-        $data = Slider::findOrFail($id);
+        $data = Team::findOrFail($id);
 
 
         if ($data->trash) {
@@ -206,9 +190,9 @@ class SliderController extends Controller
 
     public function trashUsers()
     {
-        $admin = Slider::orderBy("title", "asc")->where('trash', true)->get();
-        return view('admin.pages.slider.trash', [
-            'all_slider' => $admin,
+        $team = Team::orderBy("name", "asc")->where('trash', true)->get();
+        return view('admin.pages.team.trash', [
+            'all_team' => $team,
             'form_type'  => 'trash',
         ]);
     }

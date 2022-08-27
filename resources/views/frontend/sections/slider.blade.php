@@ -3,7 +3,6 @@
     <div id="home-slider" class="flexslider">
         <ul class="slides">
             @foreach ($all_slider as $item)
-
             <li>
                 <img src="{{url('storage/sliders/'.$item->photo)}}" alt="">
                 <div class="slide-wrap">

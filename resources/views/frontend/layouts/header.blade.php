@@ -89,10 +89,10 @@
 				<a href="{{ route('home.page') }}">Home</a>
 			  </li>
 			  <li>
-				<a href="#">About</a>
+				<a href="{{ route('about.page') }}">About</a>
 			  </li>
 			  <li>
-				<a href="#">Pricing</a>
+				<a href="{{ route('pricing.page') }}">Pricing</a>
 			  </li>
 			  <li>
 				<a href="#">Team</a>

@@ -12,46 +12,31 @@
     </div>
     <div class="container">
         <div class="row">
+            @foreach ($all_vision as $item)
             <div class="col-md-5 col-sm-8">
                 <div class="title">
-                    <h4 class="upper">Not just code.</h4>
-                    <h3>The Vision<span class="red-dot"></span></h3>
+                    <h4 class="upper">{{$item->subtitle}}.</h4>
+                    <h3>{{$item->title}}<span class="red-dot"></span></h3>
                     <hr>
                 </div>
                 <div class="row">
+                    @foreach (json_decode($item->visions) as $vision)
                     <div class="col-sm-6">
                         <div class="text-box">
-                            <h4 class="upper small-heading">Strategy</h4>
-                            <p>Natus totam adipisci illum aut nihil consequuntur ut, ducimus alias iusto facili.</p>
+
+                            <h4 class="upper small-heading">{{$vision->vision_name}}</h4>
+                            <p>{{$vision->vision_desc}}.</p>
+
                         </div>
                         <!-- end of text box-->
+
                     </div>
-                    <div class="col-sm-6">
-                        <div class="text-box">
-                            <h4 class="upper small-heading">Design</h4>
-                            <p>Nisi, ut commodi dolor, quae doloremque earum alias accusantium sint.</p>
-                        </div>
-                        <!-- end of text box-->
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-box">
-                            <h4 class="upper small-heading">Skills</h4>
-                            <p>Nesciunt est eaque, expedita cum minima reprehenderit? Harum vero dolorum.</p>
-                        </div>
-                        <!-- end of text box-->
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-box">
-                            <h4 class="upper small-heading">Power</h4>
-                            <p>Fuga ipsum, repellendus? Architecto commodi magni non nihil et iusto.</p>
-                        </div>
-                        <!-- end of text box-->
-                    </div>
+                    @endforeach
+                    <!-- end of row              -->
                 </div>
-                <!-- end of row              -->
+                @endforeach
             </div>
+            <!-- end of row-->
         </div>
-        <!-- end of row-->
-    </div>
-    <!-- end of container-->
+        <!-- end of container-->
 </section>

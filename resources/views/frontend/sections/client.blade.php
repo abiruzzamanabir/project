@@ -8,10 +8,42 @@
         <div class="section-content">
             <div class="boxes clients">
                 <div class="row">
+                    @php
+                        $i=1;
+                    @endphp
                     @foreach ($all_client as $client)    
-                    <div class="col-sm-4 col-xs-6 border-right border-bottom">
-                        <img src="{{ url('storage/clients/'. $client->photo) }}" alt="" data-animated="true" class="client-image">
+                    @php
+                        if ($i==1) {
+                            $classname='border-right border-bottom';
+                            $delay='';
+                        } else if($i==2){
+                            $classname='border-right border-bottom';
+                            $delay='500';
+                        }
+                         else if($i==3){
+                            $classname='border-bottom';
+                            $delay='1000';
+                        }
+                         else if($i==4){
+                            $classname='border-right';
+                            $delay='';
+                        }
+                         else if($i==5){
+                            $classname='border-right';
+                            $delay='500';
+                        }
+                         else if($i==6){
+                            $classname='';
+                            $delay='1000';
+                        }
+                        
+                    @endphp
+                    <div class="col-sm-4 col-xs-6 {{$classname}}">
+                        <img src="{{ url('storage/clients/'. $client->photo) }}" alt="" data-animated="true" data-delay="{{$delay}}" class="client-image">
                     </div>
+                    @php
+                        $i++;
+                    @endphp
                     @endforeach
 
                 </div>

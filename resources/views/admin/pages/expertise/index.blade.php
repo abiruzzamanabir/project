@@ -4,7 +4,7 @@
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">All Sliders</h4>
+                <h4 class="card-title">All Expertise</h4>
                 <a class="btn btn-sm btn-danger" href="{{ route('slider.trash') }}">Trash Sliders <i
                         class="fa fa-arrow-right ml-2" aria-hidden="true"></i></a>
             </div>
@@ -16,7 +16,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
-                                <th>Photo</th>
                                 @if ($form_type=='create')
                                 <th>Created At</th> @endif
                                 @if ($form_type=='edit')
@@ -26,13 +25,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($sliders as $item)
+                            @forelse ($expertise as $item)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$item->title}}</td>
-                                <td><img style="width: 60px" src="{{url('storage/sliders/'.$item->photo)}}" alt=""
-                                        srcset=""></td>
-
                                 @if ($form_type=='create')
                                 <td>{{$item->created_at->diffForHumans()}}</td>
                                 @endif
@@ -93,11 +89,11 @@
         @if ($form_type == 'create')
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Add new slide</h4>
+                <h4 class="card-title">Add new expertise</h4>
             </div>
             @include('validate')
             <div class="card-body">
-                <form action="{{ route('slider.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('expertise.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group order">
                         <label>Title</label>
@@ -107,19 +103,11 @@
                         <label>Sub title</label>
                         <input name="subtitle" type="text" value="{{old('subtitle')}}" class="form-control" autofocus>
                     </div>
-                    <div class="form-group order">
-                        <label>Photo</label>
-                        <br>
-                        <img style="max-width: 100%;" id="slider-photo-preview" src="" alt="">
-                        <br>
-                        <input class="d-none" id="slider-photo" name="photo" type="file" class="form-control">
-                        <label for="slider-photo"><img style="cursor: pointer" class="w-50"
-                                src="{{ url('admin\assets\img\upload.png') }}" alt=""></label>
-                    </div>
-                    <div class="form-group order slider-btn-opt">
-                        <div class="btn-opt-area">
+                    
+                    <div class="form-group order expertise-btn-opt">
+                        <div class="expertise-btn-opt-area">
                         </div>
-                        <a id="add-new-slider-button" class="btn btn-info" href="">Add slider button</a>
+                        <a id="add-new-expertise-button" class="btn btn-info" href="">Add Expertise</a>
                     </div>
 
 

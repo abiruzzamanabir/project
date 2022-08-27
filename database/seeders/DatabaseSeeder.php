@@ -72,12 +72,36 @@ class DatabaseSeeder extends Seeder
             'name' => 'Setting',
             'slug' => 'setting',
         ]);
+        Permission::create([
+            'name' => 'Expertise',
+            'slug' => 'expertise',
+        ]);
+        Permission::create([
+            'name' => 'Vision',
+            'slug' => 'vision',
+        ]);
+        Permission::create([
+            'name' => 'Skill',
+            'slug' => 'skill',
+        ]);
+        Permission::create([
+            'name' => 'Service',
+            'slug' => 'service',
+        ]);
+        Permission::create([
+            'name' => 'Pricing',
+            'slug' => 'pricing',
+        ]);
+        Permission::create([
+            'name' => 'Counter',
+            'slug' => 'counter',
+        ]);
 
 
         Role::create([
             'name' => 'Admin',
             'slug' => 'admin',
-            'permission' => '["Admin user","Our client","Our team","Portfolio","Post","Setting","Slider","Testimonial"]',
+            'permission' => '["Admin user","Our client","Our team","Portfolio","Post","Setting","Slider","Testimonial","Expertise","Vision","Skill","Service","Pricing","Counter"]',
         ]);
         Role::create([
             'name' => 'User',

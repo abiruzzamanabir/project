@@ -12,13 +12,31 @@
 								<a href="{{ route('slider.index') }}"><i class="fa fa-slideshare"></i> <span>Slider</span></a>
 								@endif
 								@if (in_array('Testimonial',json_decode(Auth::guard('admin')->user()->role->permission)))
-								<a href="#"><i class="fa fa-quote-left"></i> <span>Testimonial</span></a>
+								<a href="{{ route('testimonial.index') }}"><i class="fa fa-quote-left"></i> <span>Testimonial</span></a>
+								@endif
+								@if (in_array('Expertise',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('expertise.index') }}"><i class="fa fa-star"></i> <span>Expertise</span></a>
+								@endif
+								@if (in_array('Vision',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('vision.index') }}"><i class="fa fa-eye"></i> <span>Vision</span></a>
 								@endif
 								@if (in_array('Our client',json_decode(Auth::guard('admin')->user()->role->permission)))
 								<a href="{{ route('client.index') }}"><i class="fa fa-user"></i> <span>Our Client</span></a>
 								@endif
 								@if (in_array('Our team',json_decode(Auth::guard('admin')->user()->role->permission)))
-								<a href="#"><i class="fa fa-users"></i> <span>Our Team</span></a>
+								<a href="{{ route('team-member.index') }}"><i class="fa fa-users"></i> <span>Our Team</span></a>
+								@endif
+								@if (in_array('Skill',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('skill.index') }}"><i class="fa fa-lightbulb-o"></i> <span>Skills</span></a>
+								@endif
+								@if (in_array('Service',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('service.index') }}"><i class="fa fa-server"></i> <span>Services</span></a>
+								@endif
+								@if (in_array('Pricing',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('pricing-table.index') }}"><i class="fa fa-table"></i> <span>Pricing</span></a>
+								@endif
+								@if (in_array('Counter',json_decode(Auth::guard('admin')->user()->role->permission)))
+								<a href="{{ route('counter.index') }}"><i class="fa fa-calculator"></i> <span>Counter</span></a>
 								@endif
 								
 							</li>
