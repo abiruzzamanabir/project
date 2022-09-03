@@ -15,6 +15,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Count</th>
+                                <th>Icon</th>
                                 @if ($form_type=='create')
                                 <th>Created At</th> @endif
                                 @if ($form_type=='edit')
@@ -29,6 +30,7 @@
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->count}}</td>
+                                <td><i class="{{$item->icon}}"></i></td>
                                 @if ($form_type=='create')
                                 <td>{{$item->created_at->diffForHumans()}}</td>
                                 @endif
@@ -70,8 +72,9 @@
                                         <button class="btn btn-sm btn-danger"><i class="fa fa-trash"
                                                 aria-hidden="true"></i></button>
                                     </form>
-                                    {{-- <a class="btn btn-sm btn-danger" href="{{ route('skill.destroy',$item->id) }}"><i
-                                            class="fa fa-trash" aria-hidden="true"></i></a> --}}
+                                    {{-- <a class="btn btn-sm btn-danger"
+                                        href="{{ route('skill.destroy',$item->id) }}"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></a> --}}
                                     @endif
                                 </td>
                             </tr>
@@ -102,6 +105,11 @@
                         <label>Count</label>
                         <input name="count" type="number" value="{{old('count')}}" class="form-control" autofocus>
                     </div>
+                    <div class="form-group order">
+                        <label>Icon</label> <br>
+                        <button class="btn btn-sm btn-info mb-3 show-icon">Select icon</button>
+                        <input name="icon" type="text" value="{{old('icon')}}" class="form-control select-abir-icon-input" readonly autofocus>
+                    </div>
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Add</button>
@@ -128,6 +136,11 @@
                         <label>Counter</label>
                         <input name="count" type="number" value="{{$edit->count}}" class="form-control" autofocus>
                     </div>
+                    <div class="form-group order">
+                        <label>Icon</label> <br>
+                        <button class="btn btn-sm btn-info mb-3 show-icon">Select icon</button>
+                        <input name="icon" type="text" value="{{$edit->icon}}" class="form-control select-abir-icon-input" readonly autofocus>
+                    </div>
 
                     <div class="text-right">
                         <a class="btn btn-info" href="{{ route('counter.index') }}">Back</a>
@@ -139,4 +152,7 @@
         @endif
     </div>
 </div>
+
+@include('icon')
+
 @endsection

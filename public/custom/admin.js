@@ -43,28 +43,6 @@
             $(this).closest(".btn-section").remove();
         });
 
-        $("#add-new-expertise-button").click(function (e) {
-            e.preventDefault();
-
-            $(".expertise-btn-opt-area").append(`
-                            <div class="btn-section">
-                            <div class="d-flex justify-content-between">
-                            <span>Button ${btn_no}</span>
-                            <span style="cursor: pointer" class="badge badge-danger remove-btn">Remove <i class="fa fa-close" aria-hidden="true"></i></span>
-                            </div>
-                            <input name="expertise_name[]" class="form-control my-3" type="text" placeholder="Expertise Name">
-                            <input name="expertise_desc[]" class="form-control my-3" type="text" placeholder="Expertise Description">
-                            
-                            <div class="form-group order">
-                            <label>Photo</label>
-                            <br>
-                            <input name="expertise_photo[]" type="file" class="form-control">
-                    </div>
-                            </div>
-                    `);
-            btn_no++;
-        });
-
         $("#add-new-vision-button").click(function (e) {
             e.preventDefault();
 
@@ -84,6 +62,20 @@
         $('#percentage').change(function(){
             document.getElementById('percentage_val').value=$(this).val();
              });
+
+        
+        $('.show-icon').click(function (e) { 
+            e.preventDefault();
+            $('#select-icon').modal('show');
+            
+        });
+
+        $('.select-icon-abir .preview-icon').click(function(){
+            let icon_name = $(this).find("i").attr("class");;
+            $('.select-abir-icon-input').val(icon_name);
+            $('#select-icon').modal('hide');
+            
+        });
 
     });
 })(jQuery);

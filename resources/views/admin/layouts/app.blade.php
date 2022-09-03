@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/feathericon.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/assets/plugins/morris/morris.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/icon/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css"/>
  
     <!-- Main CSS -->

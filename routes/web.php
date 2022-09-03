@@ -58,6 +58,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/slider-trash-update/{id}', [SliderController::class, 'updateTrash'])->name('slider.trash.update');
     Route::get('/slider-trash', [SliderController::class, 'trashUsers'])->name('slider.trash');
     Route::resource('/expertise', ExpertiseController::class);
+    Route::get('/expertise-status-update/{id}', [ExpertiseController::class, 'updateStatus'])->name('expertise.status.update');
     Route::resource('/vision', VisionController::class);
     Route::get('/vision-status-update/{id}', [VisionController::class, 'updateStatus'])->name('vision.status.update');
     Route::resource('/testimonial', TestimonialController::class);

@@ -43,11 +43,13 @@ class CounterController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'count' => 'required',
+            'icon' => 'required',
         ]);
 
         Counter::create([
             'name' => $request->name,
             'count' => $request->count,
+            'icon' => $request->icon,
         ]);
 
         return back()->with('success', 'Counter added successfully');
@@ -95,6 +97,7 @@ class CounterController extends Controller
         $update_date->update([
             'name' => $request->name,
             'count' => $request->count,
+            'icon' => $request->icon,
         ]);
 
         return back()->with('success', 'Counter updated successfully');

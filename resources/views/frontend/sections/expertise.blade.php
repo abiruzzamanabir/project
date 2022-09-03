@@ -19,46 +19,18 @@
             <div class="col-md-6 col-md-offset-6 col-sm-8 col-sm-offset-4">
                 <div class="services">
                     <div class="row">
+                        @foreach ($all_expertise as $item)
+                            
                         <div class="col-sm-6 border-bottom border-right">
-                            <div class="service"><i class="icon-focus"></i><span class="back-icon"><i
-                                        class="icon-focus"></i></span>
-                                <h4>Branding</h4>
+                            <div class="service"><i class="{{$item->icon}}"></i><span class="back-icon"><i
+                                        class="{{$item->icon}}"></i></span>
+                                <h4>{{$item->title}}</h4>
                                 <hr>
-                                <p class="alt-paragraph">Facilis doloribus illum quis, expedita mollitia voluptate
-                                    non iure, perspiciatis repellat eveniet volup.</p>
+                                <p class="alt-paragraph">{{$item->subtitle}}</p>
                             </div>
                             <!-- end of service-->
                         </div>
-                        <div class="col-sm-6 border-bottom">
-                            <div class="service"><i class="icon-layers"></i><span class="back-icon"><i
-                                        class="icon-layers"></i></span>
-                                <h4>Interactive</h4>
-                                <hr>
-                                <p class="alt-paragraph">Commodi totam esse quis alias, nihil voluptas repellat
-                                    magni, id fuga perspiciatis, ut quia beatae, accus.</p>
-                            </div>
-                            <!-- end of service-->
-                        </div>
-                        <div class="col-sm-6 border-bottom border-right">
-                            <div class="service"><i class="icon-mobile"></i><span class="back-icon"><i
-                                        class="icon-mobile"></i></span>
-                                <h4>Production</h4>
-                                <hr>
-                                <p class="alt-paragraph">Doloribus qui asperiores nisi placeat volup eum, nemo est,
-                                    praesentium fuga alias sit quis atque accus.</p>
-                            </div>
-                            <!-- end of service-->
-                        </div>
-                        <div class="col-sm-6 border-bottom">
-                            <div class="service"><i class="icon-globe"></i><span class="back-icon"><i
-                                        class="icon-globe"></i></span>
-                                <h4>Editing</h4>
-                                <hr>
-                                <p class="alt-paragraph">Aliquid repellat facilis quis. Sequi excepturi quis dolorem
-                                    eligendi deleniti fuga rerum itaque.</p>
-                            </div>
-                            <!-- end of service-->
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!-- end of row-->

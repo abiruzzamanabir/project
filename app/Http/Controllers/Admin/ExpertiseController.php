@@ -15,10 +15,10 @@ class ExpertiseController extends Controller
      */
     public function index()
     {
-        $expertise = Expertise::where('trash', false)->get();
+        $expertises = Expertise::where('trash', false)->get();
         return view('admin.pages.expertise.index', [
             'form_type' => 'create',
-            'expertise' => $expertise,
+            'expertises' => $expertises,
         ]);
     }
 
@@ -43,27 +43,14 @@ class ExpertiseController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'subtitle' => 'required',
-            'expertise_name' => 'required',
-            'expertise_desc' => 'required',
-            'photo' => 'required',
+            'icon' => 'required',
+            
         ]);
-
-
-        $expertise = [];
-
-        for ($i = 0; $i < count($request->expertise_name); $i++) {
-            array_push($expertise, [
-                'expertise_name' => $request->expertise_name[$i],
-                'expertise_desc' => $request->expertise_desc[$i],
-                'expertise_photo' => $request->expertise_photo[$i],
-            ]);
-        }
-
 
         Expertise::create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
-            'exp' => json_encode($expertise),
+            'icon' => $request->icon,
         ]);
 
         return back()->with('success', 'Expertise added successfully');
@@ -88,7 +75,13 @@ class ExpertiseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $expertises = Expertise::get();
+        $expertise = Expertise::findOrFail($id);
+        return view('admin.pages.expertise.index', [
+            'form_type'  => 'edit',
+            'edit'  => $expertise,
+            'expertises' => $expertises,
+        ]);
     }
 
     /**
@@ -100,7 +93,15 @@ class ExpertiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $update_date = Expertise::findOrFail($id);
+
+        $update_date->update([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'icon' => $request->icon,
+        ]);
+
+        return back()->with('success', 'Expertise updated successfully');
     }
 
     /**
@@ -111,6 +112,27 @@ class ExpertiseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete_id = Expertise::findOrFail($id);
+        $delete_id->delete();
+
+
+        return back()->with('success-main', 'Expertise Deleted successfully');
+    }
+
+    public function updateStatus($id)
+    {
+        $data = Expertise::findOrFail($id);
+
+
+        if ($data->status) {
+            $data->update([
+                'status' => false,
+            ]);
+        } else {
+            $data->update([
+                'status' => true,
+            ]);
+        }
+        return back()->with('success-main', 'Status updated successfully');
     }
 }
