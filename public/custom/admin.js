@@ -59,23 +59,73 @@
             btn_no++;
         });
 
-        $('#percentage').change(function(){
-            document.getElementById('percentage_val').value=$(this).val();
-             });
+        $("#percentage").change(function () {
+            document.getElementById("percentage_val").value = $(this).val();
+        });
 
-        
-        $('.show-icon').click(function (e) { 
+        $(".show-icon").click(function (e) {
             e.preventDefault();
-            $('#select-icon').modal('show');
-            
+            $("#select-icon").modal("show");
         });
 
-        $('.select-icon-abir .preview-icon').click(function(){
-            let icon_name = $(this).find("i").attr("class");;
-            $('.select-abir-icon-input').val(icon_name);
-            $('#select-icon').modal('hide');
-            
+        $(".select-icon-abir .preview-icon").click(function () {
+            let icon_name = $(this).find("i").attr("class");
+            $(".select-abir-icon-input").val(icon_name);
+            $("#select-icon").modal("hide");
+        });
+        $("#portfolio-gallery").change(function (e) {
+            const files = e.target.files;
+            let gallery_ui = "";
+            for (let i = 0; i < files.length; i++) {
+                const gallery = URL.createObjectURL(files[i]);
+                gallery_ui += `<img src="${gallery}">`;
+            }
+            $('.port-gall').append(gallery_ui);
         });
 
+        CKEDITOR.replace('portfolio-desc');
+        $('.js-example-basic-multiple').select2();
+
+        $('#post-type-selector').change(function () { 
+            const type = $(this).val();
+
+            if (type=='standard') {
+                $('.post-standard').show();
+                $('.post-gallery').val('');
+                $('.post-gallery').hide();
+                $('.post-video').hide();
+                $('.post-audio').hide();
+                $('.post-quote').hide();
+            }
+            if (type=='gallery') {
+                $('.post-standard').hide();
+                $('.post-gallery').show();
+                $('.post-video').hide();
+                $('.post-audio').hide();
+                $('.post-quote').hide();
+            }
+            if (type=='video') {
+                $('.post-standard').hide();
+                $('.post-gallery').hide();
+                $('.post-video').show();
+                $('.post-audio').hide();
+                $('.post-quote').hide();
+            }
+            if (type=='audio') {
+                $('.post-standard').hide();
+                $('.post-gallery').hide();
+                $('.post-video').hide();
+                $('.post-audio').show();
+                $('.post-quote').hide();
+            }
+            if (type=='quote') {
+                $('.post-standard').hide();
+                $('.post-gallery').hide();
+                $('.post-video').hide();
+                $('.post-audio').hide();
+                $('.post-quote').show();
+            }
+            
+        });
     });
 })(jQuery);

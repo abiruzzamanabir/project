@@ -4945,3 +4945,22 @@ table.table-inbox tbody tr.checked {
 	cursor: pointer;
 	background-color: #19c1dc;
 }
+.port-gall{
+	display: flex;
+	flex-flow: wrap;
+	gap: 5px;
+	justify-content: start;
+}
+
+.port-gall img{
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+}
+.portfolio-step{
+	margin: 5px 0;
+}
+
+.post-gallery,.post-video,.post-audio,.post-quote{
+	display: none;
+}

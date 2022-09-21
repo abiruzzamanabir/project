@@ -10,6 +10,11 @@ use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\ExpertiseController;
+use App\Http\Controllers\Admin\PortfolioCategoryController;
+use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PostTagController;
 use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
@@ -19,6 +24,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\VisionController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Models\PostCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,9 +83,21 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/pricing-table-status-update/{id}', [PricingController::class, 'updateStatus'])->name('pricing.table.status.update');
     Route::resource('/counter', CounterController::class);
     Route::get('/counter-status-update/{id}', [CounterController::class, 'updateStatus'])->name('counter.status.update');
+    Route::resource('/portfolio-category', PortfolioCategoryController::class);
+    Route::get('/portfolio-category-status-update/{id}', [PortfolioCategoryController::class, 'updateStatus'])->name('portfolio.category.status.update');
+    Route::resource('/portfolio', PortfolioController::class);
+    Route::get('/portfolio-status-update/{id}', [PortfolioController::class, 'updateStatus'])->name('portfolio.status.update');
+    Route::resource('/post-tag', PostTagController::class);
+    Route::get('/post-tag-status-update/{id}', [PostTagController::class, 'updateStatus'])->name('post.tag.status.update');
+    Route::resource('/post-category', PostCategoryController::class);
+    Route::get('/post-category-status-update/{id}', [PostCategoryController::class, 'updateStatus'])->name('post.category.status.update');
+    Route::resource('/post', PostController::class);
+    Route::get('/post-status-update/{id}', [PostController::class, 'updateStatus'])->name('post.status.update');
+
 });
 
 
 Route::get('/', [FrontendController::class, 'showHomePage'])->name('home.page');
 Route::get('/about', [FrontendController::class, 'showAboutPage'])->name('about.page');
 Route::get('/pricing', [FrontendController::class, 'showPricingPage'])->name('pricing.page');
+Route::get('/single-portfolio/{slug}', [FrontendController::class, 'showSingleportfolioPage'])->name('portfolio.single.page');

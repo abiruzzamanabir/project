@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="frontend/css/bundle.css">
-    <link rel="stylesheet" href="frontend/css/style.css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Halant:300,400" rel="stylesheet" type="text/css">
@@ -50,10 +50,10 @@
     
 @show
     @include('frontend.layouts.footer')
-    <script type="text/javascript" src="frontend/js/jquery.js"></script>
-    <script type="text/javascript" src="frontend/js/bundle.js"></script>
+    <script type="text/javascript" src="{{ asset('frontend/js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('frontend/js/bundle.js') }}"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script type="text/javascript" src="frontend/js/main.js"></script>
+    <script type="text/javascript" src="{{ asset('frontend/js/main.js') }}"></script>
 </body>
 
 

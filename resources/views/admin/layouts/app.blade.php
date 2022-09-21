@@ -18,11 +18,11 @@
 
     <!-- Feathericon CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/feathericon.min.css') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/assets/plugins/morris/morris.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/icon/themify-icons.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css"/>
- 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css" />
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
 
@@ -50,7 +50,8 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3 class="page-title">Welcome {{Auth::guard('admin')->user()->fast_name}} {{Auth::guard('admin')->user()->last_name}}!</h3>
+                            <h3 class="page-title">Welcome {{Auth::guard('admin')->user()->fast_name}}
+                                {{Auth::guard('admin')->user()->last_name}}!</h3>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item active">Dashboard</li>
                             </ul>
@@ -84,7 +85,8 @@
     <script src="{{ asset('admin/assets/plugins/raphael/raphael.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/chart.morris.js') }}"></script>
-
+    <script src="//cdn.ckeditor.com/4.19.1/basic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>

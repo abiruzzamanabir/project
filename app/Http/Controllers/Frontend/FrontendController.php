@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Counter;
 use App\Models\Expertise;
+use App\Models\Portfolio;
 use App\Models\PricingTable;
 use App\Models\Service;
 use App\Models\Skill;
@@ -24,12 +26,16 @@ class FrontendController extends Controller
         $expertise= Expertise::where('status',true)->get();
         $vision= Vision::where('status',true)->get();
         $testimonial= Testimonial::latest()->where('status',true)->take(5)->get();
+        $portfolios= Portfolio::latest()->where('status',true)->take(8)->get();
+        $categories= Category::where('status',true)->get();
         return view('frontend.pages.index', [
             'all_client' => $clients,
             'all_slider' => $slider,
             'all_expertise' => $expertise,
             'all_vision' => $vision,
             'all_testimonial' => $testimonial,
+            'all_portfolios' => $portfolios,
+            'all_categories' => $categories,
         ]);
     }
     public function showAboutPage()
@@ -54,6 +60,17 @@ class FrontendController extends Controller
         return view('frontend.pages.pricing',[
             'all_pricing' => $pricing,
             'all_counter' => $counter,
+        ]);
+    }
+    public function showSingleportfolioPage($slug)
+    {
+        $portfolio = Portfolio::where('slug',$slug)->first();
+        $previous = Portfolio::where('slug', '<', $portfolio->slug)->max('slug');
+        $next = Portfolio::where('slug', '>', $portfolio->slug)->min('slug');
+        return view('frontend.pages.portfolio',[
+            'single_post' => $portfolio,
+            'prev_post' => $previous,
+            'next_post' => $next,
         ]);
     }
 }

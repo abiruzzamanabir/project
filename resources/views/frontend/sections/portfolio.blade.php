@@ -10,10 +10,9 @@
             <div class="col-md-6">
                 <ul id="filters" class="no-fix mt-25">
                     <li data-filter="*" class="active">All</li>
-                    <li data-filter=".branding">Branding</li>
-                    <li data-filter=".graphic">Graphic</li>
-                    <li data-filter=".printing">Printing</li>
-                    <li data-filter=".video">Video</li>
+                    @foreach ($all_categories as $cat)    
+                    <li data-filter=".{{$cat->slug}}">{{$cat->slug}}</li>
+                    @endforeach
                 </ul>
                 <!-- end of portfolio filters-->
             </div>
@@ -22,126 +21,27 @@
     </div>
     <div class="section-content pb-0">
         <div id="works" class="four-col wide mt-50">
-            <div class="work-item branding video">
+            @foreach ($all_portfolios as $port)
+            <div class="work-item @foreach ($port->category as $cat)  
+                {{$cat->slug}}
+                @endforeach">
                 <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/1.jpg" alt="">
+                    <a href="{{ route('portfolio.single.page', $port->slug) }}">
+                        <img style="width: 100%;height: 350px;object-fit: cover" src="{{ url('storage/portfolios/'.$port->featured)}}" alt="">
                         <div class="work-info">
                             <div class="centrize">
                                 <div class="v-center">
-                                    <h3>Neleman Cava</h3>
-                                    <p>Branding, Video</p>
+                                    <h3>{{$port->title}}</h3>
+                                    @foreach ($port->category as $item)  
+                                    {{Str::upper($item->name)}}@if (!$loop->last),@endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
-            <div class="work-item graphic printing">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/7.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Sweet Lane</h3>
-                                    <p>Graphic, Printing</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item printing branding">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/6.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Jeff Burger</h3>
-                                    <p>Printing, Branding</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item video graphic">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/9.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Juice Meds</h3>
-                                    <p>Video, Graphic</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item branding graphic">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/11.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Prisma</h3>
-                                    <p>Graphic, Branding</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item printing graphic">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/10.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Delirio Tropical</h3>
-                                    <p>Printing, Graphic</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item printing branding">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/8.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Amendoas</h3>
-                                    <p>Printing, Branding</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="work-item graphic video">
-                <div class="work-detail">
-                    <a href="portfolio-single-1.html">
-                        <img src="frontend/images/portfolio/3.jpg" alt="">
-                        <div class="work-info">
-                            <div class="centrize">
-                                <div class="v-center">
-                                    <h3>Hnina</h3>
-                                    <p>Graphic, Video</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            @endforeach
         </div>
         <!-- end of portfolio grid-->
     </div>
