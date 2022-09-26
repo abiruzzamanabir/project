@@ -53,7 +53,11 @@
                             <h3 class="page-title">Welcome {{Auth::guard('admin')->user()->fast_name}}
                                 {{Auth::guard('admin')->user()->last_name}}!</h3>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                @foreach(Request::segments() as $segment)
+                                <li class="breadcrumb-item active text-uppercase">
+                                    <a href="{{URL::current()}}">{{$segment}}</a>
+                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

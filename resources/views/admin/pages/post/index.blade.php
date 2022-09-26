@@ -13,8 +13,9 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Slug</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Type</th>
                                 @if ($form_type=='create')
                                 <th>Created At</th> @endif
                                 @if ($form_type=='edit')
@@ -27,8 +28,22 @@
                             @forelse ($posts as $item)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->slug}}</td>
+                                <td>{{$item->title}}</td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        @foreach ($item->category as $cat)
+                                        <li>
+                                            <i class="fa fa-angle-right mr-1" aria-hidden="true"></i> {{$cat->name}}
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    @php
+                                    $featured= json_decode($item->featured);
+                                    echo $featured->post_type;
+                                    @endphp
+                                </td>
                                 @if ($form_type=='create')
                                 <td>{{$item->created_at->diffForHumans()}}</td>
                                 @endif
@@ -101,8 +116,8 @@
                     </div>
                     <div class="form-group order">
                         <label>Post Type</label>
-                        <select class="form-control" name="post-type" id="post-type-selector">
-                            <option value="standard">Standard</option>
+                        <select class="form-control" name="post_type" id="post-type-selector">
+                            <option selected value="standard">Standard</option>
                             <option value="gallery">Gallery</option>
                             <option value="video">Video</option>
                             <option value="audio">Audio</option>
@@ -189,10 +204,96 @@
                 <form action="{{ route('post.update',$edit->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input name="name" value="{{$edit->name}}" type="text" class="form-control" autofocus>
+                    <div class="form-group order">
+                        <label>Title</label>
+                        <input name="title" type="text" value="{{$edit->title}}" class="form-control" autofocus>
                     </div>
+                    @php
+                    $featured= json_decode($edit->featured);
+                    @endphp
+                    <div class="form-group order">
+                        <label>Post Type</label>
+                        <select class="form-control" name="post_type" id="post-type-selector">
+                            <option @if ($featured->post_type=='standard') selected @endif value="standard">Standard
+                            </option>
+                            <option @if ($featured->post_type=='gallery') selected @endif value="gallery">Gallery
+                            </option>
+                            <option @if ($featured->post_type=='video') selected @endif value="video">Video</option>
+                            <option @if ($featured->post_type=='audio') selected @endif value="audio">Audio</option>
+                            <option @if ($featured->post_type=='quote') selected @endif value="quote">Quote</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group order post-standard">
+                        <label>Featured Photo</label>
+                        <br>
+                        <img style="max-width: 100%;" id="slider-photo-preview" src="{{ url('storage/posts/'.$featured->standard)}}" alt="">
+                        <br>
+                        <input class="d-none" id="slider-photo" name="standard" type="file" class="form-control">
+                        <label for="slider-photo"><img style="cursor: pointer" class="w-50"
+                                src="{{ url('admin\assets\img\upload.png') }}" alt=""></label>
+                    </div>
+                    
+
+
+                    
+                    <div class="form-group order post-gallery">
+                        <label>Gallary Photo</label>
+                        <br>
+\
+                            <div class="port-gall">
+                                @foreach (json_decode($featured->gallery) as $item)
+                                <img style="max-width: 100%;" id="slider-photo-preview"
+                                src="{{ url('storage/posts/'.$item) }}" alt="">
+                                @endforeach
+                            </div>
+\
+                        <br>
+                        <input class="d-none" id="portfolio-gallery" name="gallery[]" multiple type="file"
+                            class="form-control">
+                        <label for="portfolio-gallery"><img style="cursor: pointer;width: 20%"
+                                src="{{ url('admin\assets\img\gallary_image.png') }}" alt=""></label>
+                    </div>
+                    
+                    
+                    <div class="form-group order post-video">
+                        <label>Video Post</label>
+                        <input name="video" type="text" value="{{$featured->video}}" class="form-control" autofocus>
+                    </div>
+                    
+                    <div class="form-group order post-audio">
+                        <label>Audio Post</label>
+                        <input name="audio" type="text" value="{{$featured->audio}}" class="form-control" autofocus>
+                    </div>
+                    
+                    <div class="form-group order post-quote">
+                        <label>Quote</label><br>
+                        <textarea name="quote" id="" cols="37" rows="3">{{$featured->quote}}</textarea>
+                    </div>
+                 
+                    <div class="form-group order">
+                        <label>Post Content</label>
+                        <textarea name="content" id="portfolio-desc">{{$edit->content}}</textarea>
+                    </div>
+                    {{-- <div class="form-group order">
+                        <label>Select Categories</label>
+                        <ul class="list-unstyled">
+                            @foreach ($categories as $item)
+                            <li>
+                                <label><input class="mr-2" name="cat[]" value="{{$item->id}}"
+                                        type="checkbox">{{$item->name}}</label>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="form-group order">
+                        <label>Tags</label>
+                        <select class="js-example-basic-multiple form-control" name="tags[]" multiple="multiple">
+                            @foreach ($tags as $tag)
+                            <option value="{{$tag->id}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
+                    </div> --}}
 
 
                     <div class="text-right">

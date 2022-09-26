@@ -94,15 +94,18 @@
 			  <li>
 				<a href="{{ route('pricing.page') }}">Pricing</a>
 			  </li>
-			  <li>
+			  {{-- <li>
 				<a href="#">Team</a>
-			  </li>
+			  </li> --}}
 			  <li>
+				<a href="{{ route('blog.page') }}">Blog</a>
+			  </li>
+			  {{-- <li>
 				<a href="#">Services</a>
-			  </li>
-			  <li>
+			  </li> --}}
+			  {{-- <li>
 				<a href="#">Contact</a>
-			  </li>
+			  </li> --}}
 			
 			</ul>
 			<!-- End navigation menu        -->

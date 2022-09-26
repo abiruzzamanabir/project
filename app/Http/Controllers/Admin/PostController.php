@@ -20,6 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        
         $posts= Post::latest()->get();
         $categories=PostCategory::latest()->get();
         $tags=Tag::get();
@@ -51,7 +52,6 @@ class PostController extends Controller
     {
         $this->validate($request,[
             'title' =>'required|unique:posts',
-            'content' =>'required',
         ]);
 
         if ($request->hasFile('standard')) {
@@ -73,17 +73,28 @@ class PostController extends Controller
                 array_push($gallery_files, $gall_name);
             }
         }
+        $post_type=[
+            'post_type' => $request->post_type,
+            'standard' => $file_name ?? null,
+            'audio' => $request->audio,
+            'video' => $request->video,
+            'gallery' => json_encode($gallery_files),
+            'quote' => $request->quote,
+        ];
 
+        
 
-        PostCategory::create([
+        $post=Post::create([
             'admin_id' => Auth::guard('admin')->user()->id,
             'title' =>Str::ucfirst($request->title),
-            'slug' =>Str::lower(Str::slug($request->name)),
+            'slug' =>Str::lower(Str::slug($request->title)),
             'content' => $request->content,
+            'featured' => json_encode($post_type),
         ]);
 
-
-        return back() ->with('success','Post Category added successfully');
+        $post->tag()->attach($request->cat);
+        $post->category()->attach($request->tags);
+        return back() ->with('success','Post added successfully');
     }
 
     /**
@@ -105,7 +116,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $edit= Post::findOrFail($id);
+        $posts= Post::latest()->get();
+        return view('admin.pages.post.index',[
+            'form_type' =>'edit',
+            'posts' => $posts,
+            'edit' => $edit,
+        ]);
     }
 
     /**

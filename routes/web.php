@@ -101,3 +101,5 @@ Route::get('/', [FrontendController::class, 'showHomePage'])->name('home.page');
 Route::get('/about', [FrontendController::class, 'showAboutPage'])->name('about.page');
 Route::get('/pricing', [FrontendController::class, 'showPricingPage'])->name('pricing.page');
 Route::get('/single-portfolio/{slug}', [FrontendController::class, 'showSingleportfolioPage'])->name('portfolio.single.page');
+Route::get('/single-post/{slug}', [FrontendController::class, 'showSinglepostPage'])->name('post.single.page');
+Route::get('/blog', [FrontendController::class, 'showBlogPage'])->name('blog.page');

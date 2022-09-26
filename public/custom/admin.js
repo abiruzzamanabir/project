@@ -91,7 +91,6 @@
 
             if (type=='standard') {
                 $('.post-standard').show();
-                $('.post-gallery').val('');
                 $('.post-gallery').hide();
                 $('.post-video').hide();
                 $('.post-audio').hide();

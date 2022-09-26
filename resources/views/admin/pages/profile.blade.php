@@ -72,7 +72,12 @@
                                 @if (Auth::guard('admin')->user()->dob != null)
                                 <div class="row">
                                     <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Date of Birth</p>
-                                    <p class="col-sm-10">{{Auth::guard('admin')->user()->dob}}</p>
+                                    <p class="col-sm-10">{{date('d F Y',strtotime(Auth::guard('admin')->user()->dob))}}</p>
+                                </div>
+                                <div class="row">
+                                    <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Age</p>
+                                    <p class="col-sm-10">{{\Carbon\Carbon::parse(Auth::guard('admin')->user()->dob)->diff(\Carbon\Carbon::now())->format('%y years')}}</p> 
+                                    {{-- , %m months and %d days --}}
                                 </div>
                                 @else
 

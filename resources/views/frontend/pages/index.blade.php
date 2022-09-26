@@ -7,5 +7,4 @@
 @include('frontend.sections.portfolio')
 @include('frontend.sections.client')
 @include('frontend.sections.testimonial')
-@include('frontend.sections.blog')
 @endsection

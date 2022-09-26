@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -38,9 +39,9 @@ class AdminPageController extends Controller
         ]);
 
         if ($request->hasFile('new_photo')) {
-            $img = $request->file('new_photo ');
+            $img = $request->file('new_photo');
             $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
-            $inter=Image::make($img->getRealPath());
+            $inter = Image::make($img->getRealPath());
             $inter->filesize();
             $inter->save(storage_path('app/public/admins/').$file_name);
             
@@ -101,4 +102,8 @@ class AdminPageController extends Controller
 
         return redirect()->route('admin.login.page')->with('success', 'Password Changed successfully');
     }
+    public function age()
+{
+    return Carbon::parse($this->attributes['dob'])->age;
+}
 }

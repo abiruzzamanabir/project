@@ -17,7 +17,7 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role->permission) {
             return $next($request);
         } 
         
