@@ -331,46 +331,7 @@
                                 </div>
                             </div>
                             @endforeach
-                            {{-- <div class="card portfolio-step shadow-sm">
-                                <div class="card-header" id="headingOne">
-                                    <h6 class="mb-0" data-toggle="collapse" data-target="#collapseTwo" style="cursor: pointer">
-                                        Step 2
-                                    </h6>
-                                </div>
-
-                                <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <div class="my-3">
-                                            <label>Title</label>
-                                            <input type="text" name="stitle[]" id="" class="form-control" autofocus>
-                                        </div>
-                                        <div class="my-3">
-                                            <label>Description</label>
-                                            <textarea name="sdesc[]" class="form-control" autofocus></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card portfolio-step shadow-sm">
-                                <div class="card-header" id="headingOne">
-                                    <h6 class="mb-0" data-toggle="collapse" data-target="#collapseThree" style="cursor: pointer">
-                                        Step 3
-                                    </h6>
-                                </div>
-
-                                <div id="collapseThree" class="collapse" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <div class="my-3">
-                                            <label>Title</label>
-                                            <input type="text" name="stitle[]" id="" class="form-control" autofocus>
-                                        </div>
-                                        <div class="my-3">
-                                            <label>Description</label>
-                                            <textarea name="sdesc[]" class="form-control" autofocus></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
+                          
 
                         </div>
                     </div>

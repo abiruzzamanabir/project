@@ -18,7 +18,7 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8">
                 <article class="post-single">
                     <div class="post-info text-center">
                         <h2><a href="#">{{$single_post->title}}</a></h2>
@@ -26,7 +26,7 @@
                                 {{$single_post->author->last_name}}</a><span class="dot"></span><span>{{date('d F
                                 Y',strtotime($single_post->created_at))}}</span><span class="dot"></span>
                             @foreach ($single_post->tag as $tag)
-                            <a href="#" class="post-tag">{{$tag->name}}</a>
+                            <a href="{{ route('blog.tag.page', $tag->slug) }}" class="post-tag">{{$tag->name}}</a>
                             @if (!$loop->last)
                             |
                             @endif
@@ -80,7 +80,7 @@
 
                     <div class="post-body">
                         <p>
-                            {!! Str::of(htmlspecialchars_decode($single_post->content)) ->words(30) !!}
+                            {!! htmlspecialchars_decode($single_post->content) !!}
                         </p>
                         
                     </div>
@@ -163,6 +163,7 @@
                 </div> --}}
                 <!-- end of comment form-->
             </div>
+            @include('frontend.layouts.side-bar')
         </div>
     </div>
 </section>

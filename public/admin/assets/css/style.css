@@ -4964,3 +4964,16 @@ table.table-inbox tbody tr.checked {
 .post-gallery,.post-video,.post-audio,.post-quote{
 	display: none;
 }
+
+.product-gall{
+	display: flex;
+	flex-flow: wrap;
+	gap: 5px;
+	justify-content: start;
+}
+
+.product-gall img{
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+}

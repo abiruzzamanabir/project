@@ -59,6 +59,16 @@
 								</ul>
 							</li>
 							@endif
+							@if (in_array('Product',json_decode(Auth::guard('admin')->user()->role->permission)))
+							<li class="submenu">
+								<a href="#"><i class="fe fe-document"></i> <span> Products</span> <span class="menu-arrow"></span></a>
+								<ul style="display: none;">
+									<li><a href="{{ route('products.index') }}">All Products</a></li>
+									<li><a href="{{ route('products-category.index') }}">Product Category</a></li>
+									<li><a href="{{ route('products-tag.index') }}">Product Tags</a></li>
+								</ul>
+							</li>
+							@endif
 
                             <li class="menu-title"> 
 								<span>Admin Option</span>

@@ -92,8 +92,8 @@ class PostController extends Controller
             'featured' => json_encode($post_type),
         ]);
 
-        $post->tag()->attach($request->cat);
-        $post->category()->attach($request->tags);
+        $post->category()->attach($request->cat);
+        $post->tag()->attach($request->tags);
         return back() ->with('success','Post added successfully');
     }
 
@@ -118,10 +118,15 @@ class PostController extends Controller
     {
         $edit= Post::findOrFail($id);
         $posts= Post::latest()->get();
+        $categories = PostCategory::latest()->where('status',true)->get();
+        $tags = Tag::latest()->where('status',true)->get();
+
         return view('admin.pages.post.index',[
             'form_type' =>'edit',
             'posts' => $posts,
             'edit' => $edit,
+            'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 
@@ -134,7 +139,54 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update_date = Post::findOrFail($id);
+        $featured= json_decode($update_date->featured);
+
+
+        if ($request->hasFile('standard')) {
+            $img = $request->file('standard');
+            $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
+            $inter = Image::make($img->getRealPath());
+            $inter->filesize();
+            $inter->save(storage_path('app/public/posts/') . $file_name);
+        }else{
+            $file_name=$featured->standard;
+        }
+
+        $gallery_files = json_decode($featured->gallery);
+        if ($request->hasFile('gallery')) {
+            $gallery = $request->file('gallery');
+            foreach ($gallery as $gal) {
+                $gall_name = md5(time() . rand()) . '.' . $gal->clientExtension();
+                $inter = Image::make($gal->getRealPath());
+                $inter->filesize();
+                $inter->save(storage_path('app/public/posts/') . $gall_name);
+                array_push($gallery_files, $gall_name);
+            }
+        }
+
+
+        $post_type=[
+            'post_type' => $request->post_type,
+            'standard' => $file_name ?? null,
+            'audio' => $request->audio,
+            'video' => $request->video,
+            'gallery' => json_encode($gallery_files)??null,
+            'quote' => $request->quote,
+        ];
+        
+        $update_date->update([
+            'admin_id' => Auth::guard('admin')->user()->id,
+            'title' =>Str::ucfirst($request->title),
+            'slug' =>Str::lower(Str::slug($request->title)),
+            'content' => $request->content,
+            'featured' => json_encode($post_type),
+        ]);
+
+        $update_date->category()->sync($request->cat);
+        $update_date->tag()->sync($request->tags);
+
+        return back()->with('success', 'Portfolio updated successfully');
     }
 
     /**
@@ -145,7 +197,21 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete_data= Post::findOrFail($id);
+
+        $featured = json_decode($delete_data->featured);
+        if ($featured->post_type == 'standard') {
+            unlink('storage/posts/' . $featured->standard);
+        } 
+        if ($featured->post_type == 'gallery') {
+            foreach (json_decode($featured->gallery) as $gal) {
+                unlink('storage/posts/' . $gal);
+            }
+        } 
+        
+        $delete_data->delete();
+
+        return back() ->with('success-main','Post deleted successfully');
     }
     public function updateStatus($id)
     {

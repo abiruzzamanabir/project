@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PostTagController;
 use App\Http\Controllers\Admin\PricingController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductTagController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SliderController;
@@ -93,6 +96,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/post-category-status-update/{id}', [PostCategoryController::class, 'updateStatus'])->name('post.category.status.update');
     Route::resource('/post', PostController::class);
     Route::get('/post-status-update/{id}', [PostController::class, 'updateStatus'])->name('post.status.update');
+    Route::resource('/products-tag', ProductTagController::class);
+    Route::get('/products-tag-status-update/{id}', [ProductTagController::class, 'updateStatus'])->name('product.tag.status.update');
+    Route::resource('/products-category', ProductCategoryController::class);
+    Route::get('/products-category-status-update/{id}', [ProductCategoryController::class, 'updateStatus'])->name('product.category.status.update');
+    Route::resource('/products', ProductController::class);
+    Route::get('/products-status-update/{id}', [ProductController::class, 'updateStatus'])->name('product.status.update');
 
 });
 
@@ -103,3 +112,11 @@ Route::get('/pricing', [FrontendController::class, 'showPricingPage'])->name('pr
 Route::get('/single-portfolio/{slug}', [FrontendController::class, 'showSingleportfolioPage'])->name('portfolio.single.page');
 Route::get('/single-post/{slug}', [FrontendController::class, 'showSinglepostPage'])->name('post.single.page');
 Route::get('/blog', [FrontendController::class, 'showBlogPage'])->name('blog.page');
+Route::get('/blog/category/{slug}', [FrontendController::class, 'showBlogCategoryPage'])->name('blog.category.page');
+Route::get('/blog/tag/{slug}', [FrontendController::class, 'showBlogTagPage'])->name('blog.tag.page');
+Route::get('/blog/search/', [FrontendController::class, 'blogSearch'])->name('blog.search');
+Route::get('/shop', [FrontendController::class, 'showShopPage'])->name('shop.page');
+Route::get('/single-product/{slug}', [FrontendController::class, 'showSingleProductPage'])->name('product.single.page');
+Route::get('/product/category/{slug}', [FrontendController::class, 'showProductCategoryPage'])->name('product.category.page');
+Route::get('/product/tag/{slug}', [FrontendController::class, 'showProductTagPage'])->name('product.tag.page');
+Route::get('/product/search/', [FrontendController::class, 'productSearch'])->name('product.search');

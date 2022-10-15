@@ -2,8 +2,8 @@
           <div class="sidebar hidden-sm hidden-xs">
             <div class="widget">
               <h6 class="upper">Search blog</h6>
-              <form>
-                <input type="text" placeholder="Search.." class="form-control">
+              <form action="{{ route('blog.search') }}" method="GET">
+                <input type="text" name="search" placeholder="Search.." class="form-control">
               </form>
             </div>
             <!-- end of widget        -->
@@ -11,7 +11,7 @@
               <h6 class="upper">Categories</h6>
               <ul class="nav">
                 @foreach ($category as $cat) 
-                <li><a href="{{$cat->slug}}">{{$cat->name}}</a>
+                <li><a href="{{ route('blog.category.page', $cat->slug) }}">{{$cat->name}} ({{count($cat->posts)}})</a>
                 </li>
                 @endforeach
           
@@ -22,7 +22,7 @@
               <h6 class="upper">Popular Tags</h6>
               <div class="tags clearfix">
                 @foreach ($taglist as $tag)
-                <a href="{{$tag->slug}}">{{$tag->name}}</a>
+                <a href="{{ route('blog.tag.page', $tag->slug) }}">{{$tag->name}} ({{count($tag->posts)}})</a>
                 @endforeach
               </div>
             </div>
@@ -30,9 +30,9 @@
             <div class="widget">
               <h6 class="upper">Latest Posts</h6>
               <ul class="nav">
-                @foreach ($all_post as $item)    
+                @foreach ($latest as $item)    
                 <li><a href="{{ route('post.single.page', $item->slug) }}">{{$item->title}}<i class="ti-arrow-right"></i><span>{{date('d F , 
-                  Y',strtotime($post->created_at))}}</span></a>
+                  Y',strtotime($item->created_at))}}</span></a>
                 </li>
                 @endforeach
               </ul>

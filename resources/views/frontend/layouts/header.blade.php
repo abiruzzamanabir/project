@@ -4,8 +4,8 @@
 		  <!-- Logo container-->
 		  <div class="logo">
 			<a href="{{ route('home.page') }}">
-			  <img src="frontend/images/logo_light.png" alt="" class="logo-light">
-			  <img src="frontend/images/logo_dark.png" alt="" class="logo-dark">
+			  <img src="{{ asset('frontend/images/logo_light.png') }}" alt="" class="logo-light">
+			  <img src="{{ asset('frontend/images/logo_dark.png') }}" alt="" class="logo-dark">
 			</a>
 		  </div>
 		  <!-- End Logo container-->
@@ -99,6 +99,9 @@
 			  </li> --}}
 			  <li>
 				<a href="{{ route('blog.page') }}">Blog</a>
+			  </li>
+			  <li>
+				<a href="{{ route('shop.page') }}">Shop</a>
 			  </li>
 			  {{-- <li>
 				<a href="#">Services</a>

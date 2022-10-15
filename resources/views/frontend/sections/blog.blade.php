@@ -23,23 +23,23 @@
 
 
 
-          @foreach ($all_post as $post)
+          @forelse ($all_post as $post)
 
           <article class="post-single">
             <div class="post-info">
-              <h2><a href="#">{{$post->title}}</a></h2>
+              <h2><a href="{{ route('post.single.page', $post->slug) }}">{{$post->title}}</a></h2>
               <h6 class="upper"><span>By</span><a href="#"> {{$post->author->fast_name}}
                   {{$post->author->last_name}}</a><span class="dot"></span><span>{{date('d F
                   Y',strtotime($post->created_at))}}</span><span class="dot"></span>
                 @foreach ($post->tag as $tag)
-                <a href="#" class="post-tag">{{$tag->name}}</a> @if (!$loop->last)
-                    |
+                <a href="{{ route('blog.tag.page', $tag->slug) }}" class="post-tag">{{$tag->name}}</a> @if (!$loop->last)
+                |
                 @endif
                 @endforeach
               </h6>
             </div>
             @php
-                $featured= json_decode($post->featured);
+            $featured= json_decode($post->featured);
             @endphp
 
             @if ($featured->post_type=='gallery')
@@ -47,7 +47,7 @@
               <div data-options="{&quot;animation&quot;: &quot;slide&quot;, &quot;controlNav&quot;: true"
                 class="flexslider nav-outside">
                 <ul class="slides">
-                  @foreach (json_decode($featured->gallery) as $item)    
+                  @foreach (json_decode($featured->gallery) as $item)
                   <li>
                     <img src="{{ url('storage/posts/'.$item)}}" alt="">
                   </li>
@@ -73,9 +73,7 @@
             @if ($featured->post_type=='audio')
             <div class="post-media">
               <div class="media-audio">
-                <iframe
-                  src="{{$featured->audio}}"
-                  frameborder="0"></iframe>
+                <iframe src="{{$featured->audio}}" frameborder="0"></iframe>
               </div>
             </div>
             @endif
@@ -84,7 +82,7 @@
               <p>{{$featured->quote}}</p>
             </blockquote>
             @endif
-            
+
             <div class="post-body">
               <p>
                 {!! Str::of(htmlspecialchars_decode($post->content)) ->words(30) !!}
@@ -93,25 +91,29 @@
               </p>
             </div>
           </article>
-          @endforeach
+          @empty
+          <h1 class="text-center text-danger">No Post Found</h1>
+          @endforelse
           <!-- end of article-->
         </div>
+        
+        @if ($all_post->lastPage() > 1)
         <ul class="pagination">
-          <li><a href="#" aria-label="Previous"><span aria-hidden="true"><i class="ti-arrow-left"></i></span></a>
+          <li><a
+              href="{{$all_post->previousPageUrl()}}" style="{{ ($all_post->currentPage() == 1) ? 'pointer-events: none' : '' }}" aria-label="Previous"><span aria-hidden="true"><i
+                  class="ti-arrow-left"></i></span></a>
           </li>
-          <li class="active"><a href="#">1</a>
-          </li>
-          <li><a href="#">2</a>
-          </li>
-          <li><a href="#">3</a>
-          </li>
-          <li><a href="#">4</a>
-          </li>
-          <li><a href="#">5</a>
-          </li>
-          <li><a href="#" aria-label="Next"><span aria-hidden="true"><i class="ti-arrow-right"></i></span></a>
-          </li>
+          @for ($i = 1; $i <= $all_post->lastPage(); $i++)
+            <li class="{{ ($all_post->currentPage() == $i) ? ' active' : '' }}"><a
+                href="{{$all_post->url($i)}}">{{$i}}</a>
+            </li>
+          @endfor
+            <li><a
+                href="{{$all_post->nextPageUrl()}}" style="{{ ($all_post->currentPage() == $all_post->lastPage()) ? 'pointer-events: none' : '' }}" aria-label="Next"><span aria-hidden="true"><i
+                    class="ti-arrow-right"></i></span></a>
+            </li>
         </ul>
+        @endif
         <!-- end of pagination-->
       </div>
       @include('frontend.layouts.side-bar')

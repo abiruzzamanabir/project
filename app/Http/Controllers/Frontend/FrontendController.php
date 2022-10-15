@@ -12,6 +12,9 @@ use App\Models\Portfolio;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\PricingTable;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductTag;
 use App\Models\Service;
 use App\Models\Skill;
 use App\Models\Slider;
@@ -24,17 +27,17 @@ class FrontendController extends Controller
 {
     public function showHomePage()
     {
-        $post= Post::where('status',true)->latest()->get();
-        $post= Post::where('status',true)->latest()->get();
-        $category= PostCategory::where('status',true)->get();
-        $tag= Tag::where('status',true)->get();
+        $post = Post::where('status', true)->latest()->get();
+        $post = Post::where('status', true)->latest()->get();
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
         $clients = Client::get();
-        $slider= Slider::where('status',true)->get();
-        $expertise= Expertise::where('status',true)->get();
-        $vision= Vision::where('status',true)->get();
-        $testimonial= Testimonial::latest()->where('status',true)->take(5)->get();
-        $portfolios= Portfolio::latest()->where('status',true)->take(8)->get();
-        $categories= Category::where('status',true)->get();
+        $slider = Slider::where('status', true)->get();
+        $expertise = Expertise::where('status', true)->get();
+        $vision = Vision::where('status', true)->get();
+        $testimonial = Testimonial::latest()->where('status', true)->take(5)->get();
+        $portfolios = Portfolio::latest()->where('status', true)->take(8)->get();
+        $categories = Category::where('status', true)->get();
         return view('frontend.pages.index', [
             'all_client' => $clients,
             'all_slider' => $slider,
@@ -50,11 +53,11 @@ class FrontendController extends Controller
     }
     public function showAboutPage()
     {
-        $testimonial= Testimonial::latest()->where('status',true)->take(5)->get();
-        $teams= Team::where('status',true)->get();
+        $testimonial = Testimonial::latest()->where('status', true)->take(5)->get();
+        $teams = Team::where('status', true)->get();
         $clients = Client::get();
-        $skills= Skill::where('status',true)->get();
-        $services= Service::where('status',true)->get();
+        $skills = Skill::where('status', true)->get();
+        $services = Service::where('status', true)->get();
         return view('frontend.pages.about', [
             'all_client' => $clients,
             'all_testimonial' => $testimonial,
@@ -65,19 +68,20 @@ class FrontendController extends Controller
     }
     public function showPricingPage()
     {
-        $pricing= PricingTable::where('status',true)->get();
-        $counter= Counter::where('status',true)->get();
-        return view('frontend.pages.pricing',[
+        $pricing = PricingTable::where('status', true)->get();
+        $counter = Counter::where('status', true)->get();
+        return view('frontend.pages.pricing', [
             'all_pricing' => $pricing,
             'all_counter' => $counter,
         ]);
     }
+    
     public function showSingleportfolioPage($slug)
     {
-        $portfolio = Portfolio::where('slug',$slug)->first();
+        $portfolio = Portfolio::where('slug', $slug)->first();
         $previous = Portfolio::where('slug', '<', $portfolio->slug)->max('slug');
         $next = Portfolio::where('slug', '>', $portfolio->slug)->min('slug');
-        return view('frontend.pages.portfolio',[
+        return view('frontend.pages.portfolio', [
             'single_post' => $portfolio,
             'prev_post' => $previous,
             'next_post' => $next,
@@ -85,20 +89,138 @@ class FrontendController extends Controller
     }
     public function showSinglepostPage($slug)
     {
-        $post = Post::where('slug',$slug)->first();
-        return view('frontend.pages.post',[
+        $latest = Post::where('status', true)->latest()->get()->take(5);
+
+        $post = Post::where('slug', $slug)->first();
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
+        return view('frontend.pages.post', [
             'single_post' => $post,
+            'category' => $category,
+            'taglist' => $tag,
+            'latest' => $latest,
         ]);
     }
     public function showBlogPage()
     {
-        $post= Post::where('status',true)->latest()->get();
-        $category= PostCategory::where('status',true)->get();
-        $tag= Tag::where('status',true)->get();
-        return view('frontend.pages.blog',[
+        $latest = Post::where('status', true)->latest()->get()->take(5);
+        $post = Post::where('status', true)->latest()->paginate(2);
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
+        return view('frontend.pages.blog', [
             'all_post' => $post,
             'category' => $category,
             'taglist' => $tag,
+            'latest' => $latest,
+        ]);
+    }
+    public function showBlogCategoryPage($slug)
+    {
+        $latest = Post::where('status', true)->latest()->get()->take(5);
+        $cat = PostCategory::where('slug', $slug)->first();
+        $post = $cat->posts()->paginate(5);
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
+        return view('frontend.pages.blog', [
+            'all_post' => $post,
+            'category' => $category,
+            'taglist' => $tag,
+            'latest' => $latest,
+        ]);
+    }
+    public function showBlogTagPage($slug)
+    {
+        $latest = Post::where('status', true)->latest()->get()->take(5);
+        $posts = Tag::where('slug', $slug)->first();
+        $post = $posts->posts()->paginate(5);
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
+        return view('frontend.pages.blog', [
+            'all_post' => $post,
+            'category' => $category,
+            'taglist' => $tag,
+            'latest' => $latest,
+
+        ]);
+    }
+    public function blogSearch(Request $request)
+    {
+        $search = $request->search;
+        $latest = Post::where('status', true)->latest()->get()->take(5);
+        $post = Post::where('title', 'LIKE', "%{$search}%")->orWhere('content', 'LIKE', "%{$search}%")->paginate(5);
+        $category = PostCategory::where('status', true)->get();
+        $tag = Tag::where('status', true)->get();
+        return view('frontend.pages.blog', [
+            'all_post' => $post,
+            'category' => $category,
+            'taglist' => $tag,
+            'latest' => $latest,
+
+        ]);
+    }
+
+    public function showSingleProductPage($slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        $products = Product::where('status', true)->paginate(9);
+        return view('frontend.pages.single-product', [
+            'all_products' => $products,
+            'single_product' => $product,
+        ]);
+    }
+    public function showShopPage()
+    {
+        $latest =Product::where('status', true)->latest()->get()->take(3);
+        $products = Product::where('status', true)->paginate(9);
+        $category =ProductCategory::where('status', true)->get();
+        $tag =ProductTag::where('status', true)->get();
+        return view('frontend.pages.shop', [
+            'all_products' => $products,
+            'category' => $category,
+            'tag' => $tag,
+            'latest' => $latest,
+        ]);
+    }
+    public function showProductCategoryPage($slug)
+    {
+        $latest =Product::where('status', true)->latest()->get()->take(3);
+        $products = Product::where('status', true)->paginate(9);
+        $category =ProductCategory::where('status', true)->get();
+        $tag =ProductTag::where('status', true)->get();
+        return view('frontend.pages.shop', [
+            'all_products' => $products,
+            'category' => $category,
+            'tag' => $tag,
+            'latest' => $latest,
+        ]);
+    }
+    public function showProductTagPage($slug)
+    {
+        $latest =Product::where('status', true)->latest()->get()->take(3);
+        $products = Product::where('status', true)->paginate(9);
+        $category =ProductCategory::where('status', true)->get();
+        $tag =ProductTag::where('status', true)->get();
+        return view('frontend.pages.shop', [
+            'all_products' => $products,
+            'category' => $category,
+            'tag' => $tag,
+            'latest' => $latest,
+
+        ]);
+    }
+
+    public function ProductSearch(Request $request)
+    {
+        $search = $request->search;
+        $latest = Product::where('status', true)->latest()->get()->take(5);
+        $products = Product::where('name', 'LIKE', "%{$search}%")->orWhere('shortdesc', 'LIKE', "%{$search}%")->orWhere('desc', 'LIKE', "%{$search}%")->paginate(9);
+        $category = ProductCategory::where('status', true)->get();
+        $tag = ProductTag::where('status', true)->get();
+        return view('frontend.pages.shop', [
+            'all_products' => $products,
+            'category' => $category,
+            'tag' => $tag,
+            'latest' => $latest,
         ]);
     }
 }
