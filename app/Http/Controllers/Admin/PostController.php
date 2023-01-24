@@ -77,7 +77,7 @@ class PostController extends Controller
             'post_type' => $request->post_type,
             'standard' => $file_name ?? null,
             'audio' => $request->audio,
-            'video' => $request->video,
+            'video' => $this->embed($request->video),
             'gallery' => json_encode($gallery_files),
             'quote' => $request->quote,
         ];
@@ -165,12 +165,12 @@ class PostController extends Controller
             }
         }
 
-
+ 
         $post_type=[
             'post_type' => $request->post_type,
             'standard' => $file_name ?? null,
             'audio' => $request->audio,
-            'video' => $request->video,
+            'video' => $this->embed($request->video),
             'gallery' => json_encode($gallery_files)??null,
             'quote' => $request->quote,
         ];
@@ -186,7 +186,7 @@ class PostController extends Controller
         $update_date->category()->sync($request->cat);
         $update_date->tag()->sync($request->tags);
 
-        return back()->with('success', 'Portfolio updated successfully');
+        return back()->with('success', 'Post updated successfully');
     }
 
     /**
