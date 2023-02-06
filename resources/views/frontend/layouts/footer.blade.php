@@ -87,7 +87,7 @@
 			<div class="row">
 			  <div class="col-md-4">
 				<div class="copy-text">
-				  <p><i class="icon-heart red mr-15"></i>© 2022 Comet Agency.</p>
+				  <p><i class="icon-heart red mr-15"></i>{{$theme_data->copyright}}</p>
 				</div>
 			  </div>
 			  <div class="col-md-4">
@@ -109,21 +109,31 @@
 			  <div class="col-md-4">
 				<div class="footer-social">
 				  <ul>
+					@if (!empty($social->facebook))	
 					<li>
-					  <a target="_blank" href="#"><i class="ti-facebook"></i></a>
+						<a target="_blank" href="{{$social->facebook}}"><i class="ti-facebook"></i></a>
 					</li>
+					@endif
+					@if (!empty($social->twitter))	
 					<li>
-					  <a target="_blank" href="#"><i class="ti-twitter-alt"></i></a>
+						<a target="_blank" href="{{$social->twitter}}"><i class="ti-twitter-alt"></i></a>
 					</li>
+					@endif
+					@if (!empty($social->linkedin))	
 					<li>
-					  <a target="_blank" href="#"><i class="ti-linkedin"></i></a>
+						<a target="_blank" href="{{$social->linkedin}}"><i class="ti-linkedin"></i></a>
 					</li>
+					@endif
+					@if (!empty($social->instagram))	
 					<li>
-					  <a target="_blank" href="#"><i class="ti-instagram"></i></a>
+						<a target="_blank" href="{{$social->instagram}}"><i class="ti-instagram"></i></a>
 					</li>
+					@endif
+					@if (!empty($social->dribbble))	
 					<li>
-					  <a target="_blank" href="#"><i class="ti-dribbble"></i></a>
+						<a target="_blank" href="{{$social->dribbble}}"><i class="ti-dribbble"></i></a>
 					</li>
+					@endif
 				  </ul>
 				</div>
 			  </div>

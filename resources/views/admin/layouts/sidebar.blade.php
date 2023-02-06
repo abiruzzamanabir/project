@@ -83,9 +83,11 @@
 								</ul>
 							</li>
 							@endif
+							@if (in_array('Admin user',json_decode(Auth::guard('admin')->user()->role->permission)))
                             <li> 
-								<a href="#"><i class="fa fa-tasks"></i> <span>Theme Option</span></a>
+								<a href="{{ route('theme.index') }}"><i class="fa fa-tasks"></i> <span>Theme Option</span></a>
 							</li>
+							@endif
                             <li> 
 								<a href="#"><i class="fa fa-cog"></i> <span>Setting</span></a>
 							</li>

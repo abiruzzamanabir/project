@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\VisionController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -102,6 +103,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/products-category-status-update/{id}', [ProductCategoryController::class, 'updateStatus'])->name('product.category.status.update');
     Route::resource('/products', ProductController::class);
     Route::get('/products-status-update/{id}', [ProductController::class, 'updateStatus'])->name('product.status.update');
+    Route::resource('/theme', ThemeController::class);
 
 });
 
