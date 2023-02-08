@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
@@ -45,6 +46,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validate = Validator::make($request->all(), [
+            'title' =>'required|unique:posts',
+            'content' => 'required',
+        ]);
+
+        if($validate->fails()){
+            return response()->json($validate->errors(), 422);
+        }
+
         if ($request->hasFile('standard')) {
             $img = $request->file('standard');
             $file_name = md5(time() . rand()) . '.' . $img->clientExtension();
@@ -82,6 +93,10 @@ class PostController extends Controller
             'content' => $request->content,
             'featured' => json_encode($post_type),
         ]);
+
+        $post->category()->attach($request->cat);
+        $post->tag()->attach($request->tags);
+
         return response()->json([
             'message' => "Post Created Successfully!"
         ], 201);
@@ -170,6 +185,11 @@ class PostController extends Controller
             'content' => $request->content,
             'featured' => json_encode($post_type),
         ]);
+
+        $post->category()->sync($request->cat);
+        $post->tag()->sync($request->tags);
+
+
         return response()->json([
             'message' => "Post Updated Successfully!"
         ], 200);
