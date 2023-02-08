@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
         Theme::create([
             'logo' => 'logo.png',
             'favicon' => 'favicon.png',
-            'social' => '',
+            'social' => '{"facebook":"","twitter":"","linkedin":"","instagram":"","dribbble":""}',
             'title' => 'Comet',
             'tagline' => 'Multipurpose theme',
             'copyright' => '2023 Comet',
