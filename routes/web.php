@@ -1,34 +1,35 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminPageController;
+use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminPermissionController;
-use App\Http\Controllers\Admin\AdminProfileController;
-use App\Http\Controllers\Admin\AdminRoleController;
-use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\Admin\CounterController;
-use App\Http\Controllers\Admin\ExpertiseController;
-use App\Http\Controllers\Admin\PortfolioCategoryController;
-use App\Http\Controllers\Admin\PortfolioController;
-use App\Http\Controllers\Admin\PostCategoryController;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\ThemeController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\VisionController;
+use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\PostTagController;
 use App\Http\Controllers\Admin\PricingController;
-use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ProductTagController;
 use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\Admin\SkillController;
-use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AdminRoleController;
+use App\Http\Controllers\Admin\ExpertiseController;
+use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\Admin\ProductTagController;
 use App\Http\Controllers\Admin\TestimonialController;
-use App\Http\Controllers\Admin\ThemeController;
-use App\Http\Controllers\Admin\VisionController;
-use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
-use App\Models\PostCategory;
+use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\AdminPermissionController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\PortfolioCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,13 @@ use App\Models\PostCategory;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+});
+Route::get('/queue-job', function () {
+    Artisan::call('queue:work');
+});
 
 Route::group(['middleware' => 'admin.redirect'], function () {
     Route::get('/admin-login', [AdminAuthController::class, 'showLoginPage'])->name('admin.login.page');
