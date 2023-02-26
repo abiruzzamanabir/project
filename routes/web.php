@@ -59,14 +59,17 @@ Route::group(['middleware' => 'admin.redirect'], function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
+    Route::middleware('admin_back')->group(function () {
+        Route::resource('/role', AdminRoleController::class);
+        Route::resource('/admin-user', AdminController::class);
+    });
     Route::get('/dashboard', [AdminPageController::class, 'showDashboardPage'])->name('admin.dashboard.page');
     Route::get('/profile', [AdminPageController::class, 'showProfilePage'])->name('admin.profile.page');
     Route::post('/profile', [AdminPageController::class, 'updateProfile'])->name('admin.profile.update');
     Route::post('/profile-password', [AdminPageController::class, 'updatePassword'])->name('admin.password.update');
     Route::get('/admin-logout', [AdminAuthController::class, 'Logout'])->name('admin.logout.page');
     Route::resource('/permission', AdminPermissionController::class);
-    Route::resource('/role', AdminRoleController::class);
-    Route::resource('/admin-user', AdminController::class);
+
     Route::get('/admin-user-status-update/{id}', [AdminController::class, 'updateStatus'])->name('admin.status.update');
     Route::get('/admin-user-trash-update/{id}', [AdminController::class, 'updateTrash'])->name('admin.trash.update');
     Route::get('/admin-trash', [AdminController::class, 'trashUsers'])->name('admin.trash');

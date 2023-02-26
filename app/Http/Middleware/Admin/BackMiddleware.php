@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminAuthMiddleware
+class BackMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,9 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role->permission) {
-            return $next($request);
+        if(!in_array($request->segment(1),json_decode(Auth::guard('admin')->user()->role->permission))){
+            return redirect('/dashboard');
         }
-
-        return redirect()->route('admin.login.page')->with('warning','You have to login to access this page');
-
-
-
+        return $next($request);
     }
 }

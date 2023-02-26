@@ -3,10 +3,10 @@
                 <div class="sidebar-inner slimscroll">
 					<div id="sidebar-menu" class="sidebar-menu">
 						<ul>
-							<li class="menu-title"> 
+							<li class="menu-title">
 								<span>Main</span>
 							</li>
-							<li> 
+							<li>
 								<a href="{{ route('admin.dashboard.page') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a>
 								@if (in_array('Slider',json_decode(Auth::guard('admin')->user()->role->permission)))
 								<a href="{{ route('slider.index') }}"><i class="fa fa-slideshare"></i> <span>Slider</span></a>
@@ -38,7 +38,7 @@
 								@if (in_array('Counter',json_decode(Auth::guard('admin')->user()->role->permission)))
 								<a href="{{ route('counter.index') }}"><i class="fa fa-calculator"></i> <span>Counter</span></a>
 								@endif
-								
+
 							</li>
 							@if (in_array('Portfolio',json_decode(Auth::guard('admin')->user()->role->permission)))
 							<li class="submenu">
@@ -70,10 +70,10 @@
 							</li>
 							@endif
 
-                            <li class="menu-title"> 
+                            <li class="menu-title">
 								<span>Admin Option</span>
 							</li>
-							@if (in_array('Admin user',json_decode(Auth::guard('admin')->user()->role->permission)))	
+							@if (in_array('Admin user',json_decode(Auth::guard('admin')->user()->role->permission)))
 							<li class="submenu">
 								<a href="#"><i class="fa fa-user"></i> <span>Admin User</span> <span class="menu-arrow"></span></a>
 								<ul style="display: none;">
@@ -84,11 +84,11 @@
 							</li>
 							@endif
 							@if (in_array('Admin user',json_decode(Auth::guard('admin')->user()->role->permission)))
-                            <li> 
+                            <li>
 								<a href="{{ route('theme.index') }}"><i class="fa fa-tasks"></i> <span>Theme Option</span></a>
 							</li>
 							@endif
-                            <li> 
+                            <li>
 								<a href="#"><i class="fa fa-cog"></i> <span>Setting</span></a>
 							</li>
 						</ul>
